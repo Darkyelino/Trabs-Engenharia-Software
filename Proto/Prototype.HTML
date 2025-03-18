@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGenda - Calendário</title>
+    <link rel="stylesheet" href="Prototype.css">
+</head>
+<body>
+    <div class="calendar-container">
+        <h1>Calendário WebGenda</h1>
+        <div class="header">
+            <select id="yearSelect" onchange="changeYear()"></select>
+            <h2 id="monthYear"></h2>
+        </div>
+        <div class="calendar" id="calendar-header"></div>
+        <div class="calendar" id="calendar"></div>
+        <div class="controls">
+            <button onclick="prevMonth()">&#9664; Anterior</button>
+            <button onclick="nextMonth()">Próximo &#9654;</button>
+        </div>
+    </div>
+    <script src="Prototype.js"></script>
+</body>
+</html>
