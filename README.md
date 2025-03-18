@@ -43,4 +43,4 @@ Contribuições são bem-vindas! Para contribuir:
 2. Crie uma branch (`git checkout -b feature-nova`);
 3. Faça commit das suas alterações (`git commit -m 'Adiciona nova feature'`);
 4. Envie para a branch principal (`git push origin feature-nova`);
-5. Abra um **Pull Request**.
+5. Abra um **Pull Request**. 
