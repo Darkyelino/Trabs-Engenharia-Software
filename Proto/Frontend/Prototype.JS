@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     function preencherAnos() {
-        let anoInicio = anoAtual - 50;
-        let anoFim = anoAtual + 10;
+        let anoInicio = anoAtual - 10;
+        let anoFim = anoAtual + 50;
         for (let ano = anoInicio; ano <= anoFim; ano++) {
             let opcao = document.createElement("option");
             opcao.value = ano;
