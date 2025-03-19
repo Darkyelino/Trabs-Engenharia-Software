@@ -3,23 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebGenda - Calendário</title>
-    <link rel="stylesheet" href="Prototype.css">
+    <title>WebGenda</title>
+    <link rel="stylesheet" href="Prototype.CSS">
+    <script src="Prototype.JS" defer></script>
 </head>
 <body>
-    <div class="calendar-container">
-        <h1>Calendário WebGenda</h1>
-        <div class="header">
-            <select id="yearSelect" onchange="changeYear()"></select>
-            <h2 id="monthYear"></h2>
-        </div>
-        <div class="calendar" id="calendar-header"></div>
-        <div class="calendar" id="calendar"></div>
-        <div class="controls">
-            <button onclick="prevMonth()">&#9664; Anterior</button>
-            <button onclick="nextMonth()">Próximo &#9654;</button>
-        </div>
-    </div>
-    <script src="Prototype.js"></script>
+    <header>
+        <h1>Agenda</h1>
+    </header>
+
+    <main>
+        <section id="controle-calendario">
+            <button id="mes-anterior">◀ Anterior</button>
+            <select id="ano-seletor"></select>
+            <span id="mes-atual"></span>
+            <button id="mes-proximo">Próximo ▶</button>
+        </section>
+
+        <section id="calendario">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dom</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                        <th>Sáb</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-calendario"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 WebGenda</p>
+    </footer>
 </body>
 </html>

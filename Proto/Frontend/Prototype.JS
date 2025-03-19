@@ -1,66 +1,82 @@
-const calendar = document.getElementById("calendar");
-const calendarHeader = document.getElementById("calendar-header");
-const monthYear = document.getElementById("monthYear");
-const yearSelect = document.getElementById("yearSelect");
-let currentDate = new Date();
+document.addEventListener("DOMContentLoaded", () => {
+    const corpoCalendario = document.getElementById("corpo-calendario");
+    const anoSeletor = document.getElementById("ano-seletor");
+    const botaoAnterior = document.getElementById("mes-anterior");
+    const botaoProximo = document.getElementById("mes-proximo");
+    const mesAtualTexto = document.getElementById("mes-atual");
 
-function renderCalendar() {
-    calendar.innerHTML = "";
-    calendarHeader.innerHTML = "";
-    let year = currentDate.getFullYear();
-    let month = currentDate.getMonth();
-    monthYear.innerText = new Intl.DateTimeFormat("pt-BR", { month: "long", year: "numeric" }).format(currentDate);
-    
-    const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
-    weekdays.forEach(day => {
-        let dayHeader = document.createElement("div");
-        dayHeader.classList.add("weekday");
-        dayHeader.innerText = day;
-        calendarHeader.appendChild(dayHeader);
+    let dataAtual = new Date();
+    let mesAtual = dataAtual.getMonth();
+    let anoAtual = dataAtual.getFullYear();
+
+    const nomesMeses = [
+        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    function preencherAnos() {
+        let anoInicio = anoAtual - 50;
+        let anoFim = anoAtual + 10;
+        for (let ano = anoInicio; ano <= anoFim; ano++) {
+            let opcao = document.createElement("option");
+            opcao.value = ano;
+            opcao.textContent = ano;
+            if (ano === anoAtual) opcao.selected = true;
+            anoSeletor.appendChild(opcao);
+        }
+    }
+
+    function gerarCalendario(mes, ano) {
+        corpoCalendario.innerHTML = "";
+        mesAtualTexto.textContent = `${nomesMeses[mes]} de ${ano}`;
+
+        let primeiroDia = new Date(ano, mes, 1).getDay();
+        let ultimoDia = new Date(ano, mes + 1, 0).getDate();
+
+        let linha = document.createElement("tr");
+        for (let i = 0; i < primeiroDia; i++) {
+            linha.appendChild(document.createElement("td"));
+        }
+
+        for (let dia = 1; dia <= ultimoDia; dia++) {
+            let celula = document.createElement("td");
+            celula.textContent = dia;
+            linha.appendChild(celula);
+
+            if ((primeiroDia + dia) % 7 === 0) {
+                corpoCalendario.appendChild(linha);
+                linha = document.createElement("tr");
+            }
+        }
+
+        corpoCalendario.appendChild(linha);
+    }
+
+    botaoAnterior.addEventListener("click", () => {
+        mesAtual--;
+        if (mesAtual < 0) {
+            mesAtual = 11;
+            anoAtual--;
+            anoSeletor.value = anoAtual;
+        }
+        gerarCalendario(mesAtual, anoAtual);
     });
 
-    let firstDay = new Date(year, month, 1).getDay();
-    let daysInMonth = new Date(year, month + 1, 0).getDate();
-    
-    for (let i = 0; i < firstDay; i++) {
-        let emptyCell = document.createElement("div");
-        calendar.appendChild(emptyCell);
-    }
+    botaoProximo.addEventListener("click", () => {
+        mesAtual++;
+        if (mesAtual > 11) {
+            mesAtual = 0;
+            anoAtual++;
+            anoSeletor.value = anoAtual;
+        }
+        gerarCalendario(mesAtual, anoAtual);
+    });
 
-    for (let day = 1; day <= daysInMonth; day++) {
-        let dayCell = document.createElement("div");
-        dayCell.classList.add("day");
-        dayCell.innerText = day;
-        dayCell.onclick = () => alert("Selecionado: " + day + "/" + (month + 1) + "/" + year);
-        calendar.appendChild(dayCell);
-    }
-}
+    anoSeletor.addEventListener("change", (event) => {
+        anoAtual = parseInt(event.target.value);
+        gerarCalendario(mesAtual, anoAtual);
+    });
 
-function prevMonth() {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar();
-}
-
-function nextMonth() {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar();
-}
-
-function populateYears() {
-    let currentYear = new Date().getFullYear();
-    for (let i = currentYear - 10; i <= currentYear + 10; i++) {
-        let option = document.createElement("option");
-        option.value = i;
-        option.textContent = i;
-        if (i === currentYear) option.selected = true;
-        yearSelect.appendChild(option);
-    }
-}
-
-function changeYear() {
-    currentDate.setFullYear(yearSelect.value);
-    renderCalendar();
-}
-
-populateYears();
-renderCalendar();
+    preencherAnos();
+    gerarCalendario(mesAtual, anoAtual);
+});
