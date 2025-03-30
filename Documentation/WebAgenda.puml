@@ -1,0 +1,76 @@
+@startuml WebAgenda
+
+abstract class Atv_Docente
+{
+    - {abstract} _contador: none
+    - {abstract} _tipo: none
+    - {abstract} _id: str
+    - {abstract} _responsavel: str
+    - {abstract} _descricao: str
+    - {abstract} _data_inicio: str
+    - {abstract} _data_fim: str
+    - {abstract} _comprovante: Comprovante
+    + {abstract} atualizar(): none 
+    + {abstract} excluir(): none
+}
+
+
+class Comprovante
+{
+    - _nome: str
+    - _data: str
+    - _local: str
+}
+
+class Historico
+{
+    - _historico_atv: dict
+    + registrar_atividade(): Atv_Docente
+    + atualizar_atividade(): Atv_Docente
+    + consultar(): str
+}
+
+class Orientacao
+{
+
+}
+
+Orientacao "1...1" -- "0...*" Comprovante
+Orientacao .left.|> Atv_Docente
+Orientacao "0..*" -up- "1..1" Historico
+
+class Extensao 
+{
+
+}
+
+Extensao .left.|> Atv_Docente
+Extensao "0..*" -up- "1..1" Historico
+Extensao "1...1" -- "0...*" Comprovante
+
+class Ensino 
+{
+
+}
+
+Ensino .left.|> Atv_Docente
+Ensino "0..*" -up- "1..1" Historico
+Ensino "1...1" -- "0...*" Comprovante
+
+class Pesquisa 
+{
+
+}
+
+Pesquisa .left.|> Atv_Docente
+Pesquisa "0..*" -up- "1..1" Historico
+Pesquisa "1...1" -- "0...*" Comprovante
+
+class Administracao 
+{
+
+}
+
+Administracao .left.|> Atv_Docente
+Administracao "0..*" -up- "1..1" Historico
+Administracao "1...1" -- "0...*" Comprovante
