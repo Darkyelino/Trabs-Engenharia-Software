@@ -10,7 +10,7 @@ abstract class Atv_Docente
     - {abstract} _data_inicio: str
     - {abstract} _data_fim: str
     - {abstract} _comprovante: Comprovante
-    + {abstract} atualizar(): none 
+    + {abstract} atualizar(): none
     + {abstract} excluir(): none
 }
 
