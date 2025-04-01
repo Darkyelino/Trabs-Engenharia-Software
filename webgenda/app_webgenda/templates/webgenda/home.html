@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGenda</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>WebGenda</h1>
+    </header>
+
+    <main>
+        <section id="controle-calendario">
+            <button id="mes-anterior">◀ Anterior</button>
+            <span id="mes-atual"></span>
+            <button id="mes-proximo">Próximo ▶</button>
+            <select id="ano-seletor"></select>
+        </section>
+
+        <section id="calendario">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dom</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                        <th>Sáb</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-calendario"></tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 WebGenda</p>
+    </footer>
+</body>
+</html>
