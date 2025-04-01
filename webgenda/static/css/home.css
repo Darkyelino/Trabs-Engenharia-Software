@@ -10,9 +10,18 @@ body {
     background-color: #f4f4f4;
 }
 
+img {
+    width: 90px;
+    display: flex;
+    align-items: left;
+}
+
 header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    background-color: #007bff;
+    background-color: #219ebc;
     color: white;
     font-size: 24px;
 }
