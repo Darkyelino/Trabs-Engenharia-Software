@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Todas as suas variáveis aqui
     const corpoCalendario = document.getElementById("corpo-calendario");
     const anoSeletor = document.getElementById("ano-seletor");
     const botaoAnterior = document.getElementById("mes-anterior");
@@ -27,28 +28,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function gerarCalendario(mes, ano) {
-        corpoCalendario.innerHTML = "";
+        corpoCalendario.innerHTML = ""; // Limpar o calendário existente
         mesAtualTexto.textContent = `${nomesMeses[mes]} de ${ano}`;
 
         let primeiroDia = new Date(ano, mes, 1).getDay();
         let ultimoDia = new Date(ano, mes + 1, 0).getDate();
 
         let linha = document.createElement("tr");
+        // Preenche os dias em branco antes do primeiro dia do mês
         for (let i = 0; i < primeiroDia; i++) {
             linha.appendChild(document.createElement("td"));
         }
 
+        // Preenche os dias do mês
         for (let dia = 1; dia <= ultimoDia; dia++) {
             let celula = document.createElement("td");
             celula.textContent = dia;
+            celula.classList.add("dia");
+            const diaFormatado = String(dia).padStart(2, '0');
+            const mesFormatado = String(mes + 1).padStart(2, '0');
+            celula.dataset.date = `${ano}-${mesFormatado}-${diaFormatado}`;
+
+            // Evento de clique no dia
+            celula.addEventListener("click", () => {
+                dataInput.value = celula.dataset.date;
+                modal.classList.remove("hidden");  // Exibe o modal
+            });
+
             linha.appendChild(celula);
 
+            // Nova linha a cada final de semana
             if ((primeiroDia + dia) % 7 === 0) {
                 corpoCalendario.appendChild(linha);
                 linha = document.createElement("tr");
             }
         }
 
+        // Adiciona a última linha de dias
         corpoCalendario.appendChild(linha);
     }
 
@@ -77,6 +93,4 @@ document.addEventListener("DOMContentLoaded", () => {
         gerarCalendario(mesAtual, anoAtual);
     });
 
-    preencherAnos();
-    gerarCalendario(mesAtual, anoAtual);
 });
