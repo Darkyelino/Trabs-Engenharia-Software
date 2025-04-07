@@ -7,28 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}WebGenda{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <script src="{% static 'js/menu.js' %}"></script>
 </head>
 <body>
     <div class="container">
-        <!-- Menu lateral -->
-        <aside>
+        <aside id="sidebar">
+            <button id="toggle-menu">☰</button>
+
             <nav>
                 <ul>
-                    <li><a href="{% url 'home' %}">Agenda</a></li>
-                    <li><a href="#">Atividade</a></li>
+                    <li><a href="{% url 'home' %}"><span class="menu-text">Agenda</span></a></li>
+                    <li><a href="#"><span class="menu-text">Atividades</span></a></li>
                 </ul>
             </nav>
-        </aside>
-
-        <!-- Conteúdo principal -->
+        </aside>        
         <div class="content">
             {% block content %}
             {% endblock %}
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2025 WebGenda</p>
-    </footer>
 </body>
 </html>

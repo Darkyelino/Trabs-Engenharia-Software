@@ -1,62 +1,84 @@
-/* Estilo geral */
-body {
+body, html {
     margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
 }
 
-/* Container principal com menu e conteúdo */
 .container {
     display: flex;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-/* Menu lateral */
 aside {
-    width: 220px;
+    width: 250px;
     background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 30px 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    padding-top: 50px;
+}
+
+aside.collapsed {
+    width: 60px;
+}
+
+#toggle-menu {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 22px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+
+aside.collapsed #toggle-menu {
+    left: 15px;
 }
 
 aside nav ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
 aside nav ul li {
-    margin-bottom: 20px;
+    padding: 15px;
 }
 
 aside nav ul li a {
-    color: #ecf0f1;
+    color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s, background 0.3s;
-    padding: 10px;
-    display: block;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-aside nav ul li a:hover {
-    background-color: #34495e;
-    color: #fff;
+.menu-text {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    opacity: 1;
+    width: auto;
 }
 
-/* Conteúdo principal */
+aside.collapsed .menu-text {
+    opacity: 0;
+    width: 0;
+}
+
+aside.collapsed nav ul li {
+    text-align: center;
+}
+
 .content {
     flex: 1;
-    padding: 40px;
-    background-color: #fff;
-}
-
-/* Rodapé */
-footer {
-    text-align: center;
-    padding: 15px;
-    background-color: #eee;
-    color: #555;
-    font-size: 0.9em;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
 }
