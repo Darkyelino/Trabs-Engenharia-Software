@@ -1,6 +1,6 @@
 from django.db.models.signals import post_migrate
 from django.dispatch import receiver
-from .models import Docentes, TipoPesquisa, TipoEnsino
+from .models import Docentes, TipoPesquisa, TipoEnsino, TipoAdministracao, TipoExtensao
 
 TIPOS_PESQUISA = [
     "Bolsista de produtividade",
@@ -77,6 +77,49 @@ TIPOS_ENSINO = [
     "Texto didático aprovado",
     "Banca concurso prof. substituto",
 ]
+
+TIPOS_EXTENSAO = [
+    "Coordenação de Programas ou Projetos institucionais.",
+    "Participantes de Programas ou Projetos de extensão.",
+    "Coordenação de Cursos de extensão acima de 180 horas.",
+    "Coordenação de Cursos de extensão entre 91 e 179 horas.",
+    "Coordenação de Cursos de extensão entre 20 e 90 horas.",
+    "Coordenação de Evento Internacional.",
+    "Coordenação de Evento Nacional. ",
+    "Coordenação de eventos  regionais ou locais.",
+    "Conferencista convidado para eventos regionais ou locais.",
+    "Conferencista convidado para eventos nacionais.",
+    "Conferencista convidado para eventos internacionais.",
+    "Comissão organizadora de eventos internacionais.",
+    "Comissão organizadora de eventos nacionais.",
+    "Comissão organizadora de eventos regionais ou locais.",
+    "Prestação de serviço acadêmico de interesse institucional decorrente de convênios ou contratos."
+]
+
+TIPOS_ADMINISTRATIVA = [
+    "Reitor, Vice-Reitor e Pró-Reitor (CD1, CD2 e CD3).",
+    "Diretor de Centro e Similares (CD4).",
+    "Coord. de Núcleo de Área.",
+    "Coord. de Cursos e Pós-graduação Stricto Sensu, Graduação e Presidente ou Comissão Permanente.",
+    "Vice-Presidente de Comissão Permanente.",
+    "Vice-Coord. de Cursos de Pós-graduação Stricto Sensu e Graduação.",
+    "Coord. de Cursos de Pós-graduação Lato Sensu.",
+    "Coord. de laboratório.",
+    "Presidente de comissão temporária, membro de comissão permanente, membro de comissão diretora",
+    "Representação ou membro de comissão temporária nomeada pelo Reitor.",
+    "Membro de colegiados de cursos de graduação e de pós-graduação.",
+    "Membro do CONSU e outros."
+]
+
+@receiver(post_migrate)
+def inserir_tipoadministrativa(sender, **kwargs):
+    for tipo in TIPOS_ADMINISTRATIVA:
+        TipoAdministracao.objects.get_or_create(tipo=tipo)
+
+@receiver(post_migrate)
+def inserir_tipoextensao(sender, **kwargs):
+    for tipo in TIPOS_EXTENSAO:
+        TipoExtensao.objects.get_or_create(tipo=tipo)
 
 @receiver(post_migrate)
 def inserir_tipopesquisa(sender, **kwargs):
