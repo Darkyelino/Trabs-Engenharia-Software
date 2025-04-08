@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}WebGenda{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
     <script src="{% static 'js/menu.js' %}"></script>
 </head>
@@ -16,6 +15,7 @@
 
             <nav>
                 <ul>
+                    <h4>Bem-vindo, {{ docente.nome }}!</h2>
                     <li><a href="{% url 'home' %}"><span class="menu-text">Agenda</span></a></li>
                     <li><a href="#"><span class="menu-text">Atividades</span></a></li>
                 </ul>
