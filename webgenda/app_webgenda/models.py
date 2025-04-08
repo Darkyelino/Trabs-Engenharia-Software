@@ -28,6 +28,7 @@ class TipoPesquisa(models.Model):
 class AtividadePesquisa(models.Model):
     id_atividadepesquisa = models.AutoField(primary_key=True)
     id_docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='atividades_pesquisa')
+    titulo = models.CharField(max_length=255)
     descricao = models.TextField()
     comprovante = models.FileField(upload_to='comprovantes/')
     id_tipo = models.ForeignKey('TipoPesquisa', on_delete=models.CASCADE, related_name='atividades_pesquisa')
@@ -39,6 +40,7 @@ class TipoEnsino(models.Model):
 class AtividadeEnsino(models.Model):
     id_atividadeensino = models.AutoField(primary_key=True)
     id_docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='atividades_ensino')
+    titulo = models.CharField(max_length=255)
     descricao = models.TextField()
     comprovante = models.FileField(upload_to='comprovantes/')
     id_tipo = models.ForeignKey(TipoEnsino, on_delete=models.CASCADE, related_name='atividades_ensino')
@@ -50,6 +52,7 @@ class TipoExtensao(models.Model):
 class AtividadeExtensao(models.Model):
     id_atividadeextensao = models.AutoField(primary_key=True)
     id_docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='atividades_extensao')
+    titulo = models.CharField(max_length=255)
     descricao = models.TextField()
     comprovante = models.FileField(upload_to='comprovantes/')
     id_tipo = models.ForeignKey(TipoExtensao, on_delete=models.CASCADE, related_name='atividades_extensao')
@@ -61,6 +64,7 @@ class TipoAdministracao(models.Model):
 class AtividadeAdministracao(models.Model):
     id_atividadeadministracao = models.AutoField(primary_key=True)
     id_docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='atividades_administracao')
+    titulo = models.CharField(max_length=255)
     descricao = models.TextField()
     comprovante = models.FileField(upload_to='comprovantes/')
     id_tipo = models.ForeignKey(TipoAdministracao, on_delete=models.CASCADE, related_name='atividades_administracao')

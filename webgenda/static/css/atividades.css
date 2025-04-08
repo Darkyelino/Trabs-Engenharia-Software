@@ -1,0 +1,42 @@
+.atividade-container {
+    padding: 30px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.botoes-atividade {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.atividade-btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: #219ebc;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.atividade-btn:hover {
+    background-color: #19799e;
+}
+
+.lista-atividades {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.atividade-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}

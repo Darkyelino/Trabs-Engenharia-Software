@@ -9,22 +9,36 @@
     <script src="{% static 'js/menu.js' %}"></script>
 </head>
 <body>
-    <div class="container">
-        <aside id="sidebar">
-            <button id="toggle-menu">☰</button>
+    <div class="page-wrapper">
+        <!-- Cabeçalho -->
+        <header>
+            <img src="{% static 'img/logov1.png' %}" alt="Logo">
+            <h1>WebGenda</h1>
+        </header>
 
-            <nav>
-                <ul>
-                    <h4>Bem-vindo, {{ docente.nome }}!</h2>
-                    <li><a href="{% url 'home' %}"><span class="menu-text">Agenda</span></a></li>
-                    <li><a href="#"><span class="menu-text">Atividades</span></a></li>
-                </ul>
-            </nav>
-        </aside>        
-        <div class="content">
-            {% block content %}
-            {% endblock %}
+        <!-- Container com menu lateral e conteúdo -->
+        <div class="container">
+            <aside id="sidebar">
+                <button id="toggle-menu">☰</button>
+                <nav>
+                    <ul>
+                        <h4>Bem-vindo, {{ docente.nome }}!</h4>
+                        <li><a href="{% url 'home' %}"><span class="menu-text">Agenda</span></a></li>
+                        <li><a href="{% url 'atividades' %}"><span class="menu-text">Atividades</span></a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="content">
+                {% block content %}
+                {% endblock %}
+            </main>
         </div>
+
+        <!-- Rodapé -->
+        <footer>
+            <p>&copy; 2025 WebGenda</p>
+        </footer>
     </div>
 </body>
 </html>

@@ -1,0 +1,29 @@
+{% extends 'webgenda/menu.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/atividades.css' %}">
+<script src="{% static 'js/atividades.js' %}" defer></script>
+
+<section class="atividade-container">
+    <div class="botoes-atividade">
+        <a href="{% url 'cad_atividadepesquisa' %}" class="atividade-btn">Pesquisa</a>
+        <button class="atividade-btn">Ensino</button>
+        <button class="atividade-btn">Extensão</button>
+        <button class="atividade-btn">Administração</button>
+    </div>
+
+    <h2>Suas Atividades Cadastradas</h2>
+    <div class="lista-atividades">
+        {% for atividade in atividades %}
+            <div class="atividade-card">
+                <p><strong>Tipo:</strong> {{ atividade.id_tipo.tipo }}</p>
+                <p><strong>Descrição:</strong> {{ atividade.descricao }}</p>
+                <p><strong>Comprovante:</strong> <a href="{{ atividade.comprovante.url }}" target="_blank">Visualizar</a></p>
+            </div>
+        {% empty %}
+            <p>Você ainda não cadastrou nenhuma atividade.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

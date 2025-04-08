@@ -11,10 +11,6 @@
     <script src="{% static 'js/home.js' %}" defer></script>
 </head>
 <body data-eventos="{{ eventos_str }}">
-    <header>
-        <img src="{% static 'img/logov1.png' %}" alt="Logo">
-        <h1>WebGenda</h1>
-    </header>
     <main>
         <div id="controle-calendario">
             <button id="mes-anterior">◀ Anterior</button>
@@ -74,10 +70,6 @@
             </div>
         </div>
     </main> 
-
-    <footer>
-        <p>&copy; 2025 WebGenda</p>
-    </footer>
 </body>
 </html>
 {% endblock %}

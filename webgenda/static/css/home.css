@@ -16,16 +16,6 @@ img {
     align-items: left;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #219ebc;
-    color: white;
-    font-size: 24px;
-}
-
 #controle-calendario {
     margin: 20px 0;
 }
@@ -84,13 +74,6 @@ td {
 
 td:hover {
     background-color: #d0e3ff;
-}
-
-footer {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #219ebc;
-    color: white;
 }
 
 .form-modal {

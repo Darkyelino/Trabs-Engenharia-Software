@@ -22,4 +22,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('adicionar-evento/', views.adicionar_evento, name='adicionar_evento'),
+    path('atividades/', views.atividades, name='atividades'),
+    path('atividades/pesquisa-cadastrar/', views.cad_atividadepesquisa, name='cad_atividadepesquisa'),
+
 ]
