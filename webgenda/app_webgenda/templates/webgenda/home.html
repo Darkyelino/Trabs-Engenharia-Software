@@ -10,21 +10,21 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}" defer></script>
 </head>
-<body>
+<body data-eventos="{{ eventos_str }}">
     <header>
         <img src="{% static 'img/logov1.png' %}" alt="Logo">
         <h1>WebGenda</h1>
     </header>
-
+    <h2>Bem-vindo, {{ docente.nome }}!</h2>
     <main>
-        <section id="controle-calendario">
+        <div id="controle-calendario">
             <button id="mes-anterior">◀ Anterior</button>
             <span id="mes-atual"></span>
             <button id="mes-proximo">Próximo ▶</button>
             <select id="ano-seletor"></select>
-        </section>
+        </div>
 
-        <section id="calendario">
+        <div id="calendario">
             <table>
                 <thead>
                     <tr>
@@ -39,7 +39,41 @@
                 </thead>
                 <tbody id="corpo-calendario"></tbody>
             </table>
-        </section>
+        </div>
+
+        <!-- Formulário flutuante -->
+        <div id="form-evento" class="form-modal" style="display: none;">
+            <form method="POST" action="{% url 'adicionar_evento' %}" class="form-caixa">
+                {% csrf_token %}
+                <h3>Adicionar Evento</h3>
+
+                <label>Data:</label>
+                <input type="text" name="data" id="data-evento" readonly>
+
+                <label>Título:</label>
+                <input type="text" name="titulo" required>
+
+                <label>Descrição:</label>
+                <textarea name="descricao" required></textarea>
+
+                <label>Aluno:</label>
+                <input type="text" name="aluno" required>
+
+                <button type="submit">Salvar Evento</button>
+                <button type="button" id="fechar-form">Cancelar</button>
+            </form>
+        </div>
+
+        <!-- Modal de detalhes do evento -->
+        <div id="detalhes-evento" class="form-modal" style="display: none;">
+            <div class="form-caixa">
+                <h3>Detalhes do Evento</h3>
+                <p><strong>Data:</strong> <span id="detalhe-data"></span></p>
+                <p><strong>Título:</strong> <span id="detalhe-titulo"></span></p>
+                <p><strong>Descrição:</strong> <span id="detalhe-descricao"></span></p>
+                <button type="button" id="fechar-detalhes">Fechar</button>
+            </div>
+        </div>
     </main> 
 
     <footer>

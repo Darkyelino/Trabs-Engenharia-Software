@@ -21,4 +21,5 @@ from app_webgenda import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
+    path('adicionar-evento/', views.adicionar_evento, name='adicionar_evento'),
 ]

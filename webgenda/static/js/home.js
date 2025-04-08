@@ -4,6 +4,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const botaoAnterior = document.getElementById("mes-anterior");
     const botaoProximo = document.getElementById("mes-proximo");
     const mesAtualTexto = document.getElementById("mes-atual");
+    const formEvento = document.getElementById("form-evento");
+    const inputDataEvento = document.getElementById("data-evento");
+    const fecharFormBtn = document.getElementById("fechar-form");
+
+    const modalDetalhes = document.getElementById("detalhes-evento");
+    const fecharDetalhesBtn = document.getElementById("fechar-detalhes");
+    const detalheData = document.getElementById("detalhe-data");
+    const detalheTitulo = document.getElementById("detalhe-titulo");
+    const detalheDescricao = document.getElementById("detalhe-descricao");
+
+    // Pega os eventos do atributo data-eventos no body
+    const eventosDataAttr = document.body.getAttribute("data-eventos");
+    const eventosSalvos = eventosDataAttr ? eventosDataAttr.split("|").map(eventoStr => {
+        const [data, titulo, descricao] = eventoStr.split(";");
+        return { data, titulo, descricao };
+    }) : [];
 
     let dataAtual = new Date();
     let mesAtual = dataAtual.getMonth();
@@ -34,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let ultimoDia = new Date(ano, mes + 1, 0).getDate();
 
         let linha = document.createElement("tr");
+
         for (let i = 0; i < primeiroDia; i++) {
             linha.appendChild(document.createElement("td"));
         }
@@ -42,9 +59,31 @@ document.addEventListener("DOMContentLoaded", () => {
             let celula = document.createElement("td");
             celula.textContent = dia;
             celula.classList.add("dia");
+
             const diaFormatado = String(dia).padStart(2, '0');
             const mesFormatado = String(mes + 1).padStart(2, '0');
-            celula.dataset.date = `${ano}-${mesFormatado}-${diaFormatado}`;
+            const dataCompleta = `${ano}-${mesFormatado}-${diaFormatado}`;
+            celula.dataset.date = dataCompleta;
+
+            // Verifica se a data tem evento
+            const eventoDoDia = eventosSalvos.find(ev => ev.data === dataCompleta);
+            if (eventoDoDia) {
+                celula.classList.add("tem-evento");
+
+                // Clicando em dia com evento mostra detalhes
+                celula.addEventListener("click", () => {
+                    detalheData.textContent = eventoDoDia.data;
+                    detalheTitulo.textContent = eventoDoDia.titulo;
+                    detalheDescricao.textContent = eventoDoDia.descricao;
+                    modalDetalhes.style.display = "flex";
+                });
+            } else {
+                // Clicando em dia sem evento abre o form
+                celula.addEventListener("click", () => {
+                    inputDataEvento.value = celula.dataset.date;
+                    formEvento.style.display = "flex";
+                });
+            }
 
             linha.appendChild(celula);
 
@@ -82,4 +121,15 @@ document.addEventListener("DOMContentLoaded", () => {
         gerarCalendario(mesAtual, anoAtual);
     });
 
+    fecharFormBtn.addEventListener("click", () => {
+        formEvento.style.display = "none";
+    });
+
+    fecharDetalhesBtn.addEventListener("click", () => {
+        modalDetalhes.style.display = "none";
+    });
+
+    // Inicialização
+    preencherAnos();
+    gerarCalendario(mesAtual, anoAtual);
 });
