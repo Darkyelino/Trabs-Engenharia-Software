@@ -32,11 +32,53 @@
 }
 
 .atividade-card {
+    position: relative;
     background-color: white;
     border: 1px solid #ddd;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
+}
+
+.botoes-edicao {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.editar-btn,
+.excluir-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Botão Editar - amarelo */
+.editar-btn {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.editar-btn:hover {
+    background-color: #e0a800;
+}
+
+/* Botão Excluir - vermelho */
+.excluir-btn {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.excluir-btn:hover {
+    background-color: #c82333;
 }

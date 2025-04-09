@@ -78,3 +78,25 @@
 .atividade-btn:hover {
     background-color: #19799e;
 }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #1d5261;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    gap: 8px;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #0a2e35;
+}
+
+.back-icon {
+    width: 24px;
+    height: 24px;
+}

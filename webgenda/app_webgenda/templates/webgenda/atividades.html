@@ -8,19 +8,24 @@
 <section class="atividade-container">
     <div class="botoes-atividade">
         <a href="{% url 'cad_atividadepesquisa' %}" class="atividade-btn">Pesquisa</a>
-        <button class="atividade-btn">Ensino</button>
-        <button class="atividade-btn">Extensão</button>
-        <button class="atividade-btn">Administração</button>
+        <a href="{% url 'cad_atividadeensino' %}" class="atividade-btn">Ensino</a>
+        <a href="{% url 'cad_atividadeextensao' %}" class="atividade-btn">Extensão</a>
+        <a href="{% url 'cad_atividadeadministracao' %}" class="atividade-btn">Administração</a>
     </div>
 
     <h2>Suas Atividades Cadastradas</h2>
     <div class="lista-atividades">
         {% for atividade in atividades %}
-            <div class="atividade-card">
-                <p><strong>Tipo:</strong> {{ atividade.id_tipo.tipo }}</p>
-                <p><strong>Descrição:</strong> {{ atividade.descricao }}</p>
-                <p><strong>Comprovante:</strong> <a href="{{ atividade.comprovante.url }}" target="_blank">Visualizar</a></p>
+        <div class="atividade-card">
+            <div class="botoes-edicao">
+                <a href="{% url 'editar_atividade' tipo=atividade.tipo atividade_id=atividade.obj.pk %}" class="editar-btn">Editar</a>
+                <a href="{% url 'excluir_atividade' tipo=atividade.tipo atividade_id=atividade.obj.pk %}" class="excluir-btn" onclick="return confirm('Tem certeza que deseja excluir esta atividade?')">Excluir</a>
             </div>
+
+            <p><strong>Tipo:</strong> {{ atividade.obj.id_tipo.tipo }}</p>
+            <p><strong>Descrição:</strong> {{ atividade.obj.descricao }}</p>
+            <p><strong>Comprovante:</strong> <a href="{{ atividade.obj.comprovante.url }}" target="_blank">Visualizar</a></p>
+        </div>
         {% empty %}
             <p>Você ainda não cadastrou nenhuma atividade.</p>
         {% endfor %}

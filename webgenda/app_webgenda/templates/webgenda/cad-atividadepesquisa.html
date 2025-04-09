@@ -4,6 +4,11 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/cad-atividadepesquisa.css' %}">
 
+<a href="{% url 'atividades' %}" class="back-link">
+    <img src="{% static 'img/back.png' %}" alt="Voltar" class="back-icon">
+    <span>Voltar</span>
+</a>
+
 <section class="atividade-container">
     <h2>Cadastrar Atividade de Pesquisa</h2>
 
