@@ -26,14 +26,14 @@
     
         <div class="form-group">
             <label for="data_inicio">Data de Início:</label><br>
-            <input type="datetime-local" name="data_inicio" id="data_inicio"
-                   value="{{ atividade.data_inicio|date:'Y-m-d\\TH:i' }}" required>
+            <input type="date" name="data_inicio" id="data_inicio"
+                value="{{ atividade.data_inicio|date:'Y-m-d' }}" required>
         </div>
     
         <div class="form-group">
             <label for="data_fim">Data de Fim:</label><br>
-            <input type="datetime-local" name="data_fim" id="data_fim"
-                   value="{{ atividade.data_fim|date:'Y-m-d\\TH:i' }}" required>
+            <input type="date" name="data_fim" id="data_fim"
+                value="{{ atividade.data_fim|date:'Y-m-d' }}" required>
         </div>
     
         <div class="form-group">
