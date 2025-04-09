@@ -18,18 +18,30 @@
             <label for="titulo">Título:</label><br>
             <input type="text" name="titulo" id="titulo" value="{{ atividade.titulo }}" required>
         </div>
-
+    
         <div class="form-group">
             <label for="descricao">Descrição:</label><br>
             <textarea name="descricao" id="descricao" rows="4" required>{{ atividade.descricao }}</textarea>
         </div>
-
+    
+        <div class="form-group">
+            <label for="data_inicio">Data de Início:</label><br>
+            <input type="datetime-local" name="data_inicio" id="data_inicio"
+                   value="{{ atividade.data_inicio|date:'Y-m-d\\TH:i' }}" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="data_fim">Data de Fim:</label><br>
+            <input type="datetime-local" name="data_fim" id="data_fim"
+                   value="{{ atividade.data_fim|date:'Y-m-d\\TH:i' }}" required>
+        </div>
+    
         <div class="form-group">
             <label for="comprovante">Comprovante (atual: <a href="{{ atividade.comprovante.url }}" target="_blank">Visualizar</a>):</label><br>
             <input type="file" name="comprovante" id="comprovante">
         </div>
-
+    
         <button type="submit" class="atividade-btn">Salvar Alterações</button>
-    </form>
+    </form>    
 </section>
 {% endblock %}

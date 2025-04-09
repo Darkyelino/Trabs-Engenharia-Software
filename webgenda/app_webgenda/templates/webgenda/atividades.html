@@ -13,6 +13,11 @@
         <a href="{% url 'cad_atividadeadministracao' %}" class="atividade-btn">Administração</a>
     </div>
 
+    <form method="GET" class="form-pesquisa">
+        <input type="text" name="q" placeholder="Buscar por título, descrição ou data..." value="{{ request.GET.q }}" class="input-pesquisa">
+        <button type="submit" class="btn-pesquisa">Pesquisar</button>
+    </form>
+
     <h2>Suas Atividades Cadastradas</h2>
     <div class="lista-atividades">
         {% for atividade in atividades %}
@@ -21,9 +26,12 @@
                 <a href="{% url 'editar_atividade' tipo=atividade.tipo atividade_id=atividade.obj.pk %}" class="editar-btn">Editar</a>
                 <a href="{% url 'excluir_atividade' tipo=atividade.tipo atividade_id=atividade.obj.pk %}" class="excluir-btn" onclick="return confirm('Tem certeza que deseja excluir esta atividade?')">Excluir</a>
             </div>
-
+    
+            <p><strong>Título:</strong> {{ atividade.obj.titulo }}</p>
             <p><strong>Tipo:</strong> {{ atividade.obj.id_tipo.tipo }}</p>
             <p><strong>Descrição:</strong> {{ atividade.obj.descricao }}</p>
+            <p><strong>Data de Início:</strong> {{ atividade.obj.data_inicio|date:"d/m/Y" }}</p>
+            <p><strong>Data de Fim:</strong> {{ atividade.obj.data_fim|date:"d/m/Y" }}</p>
             <p><strong>Comprovante:</strong> <a href="{{ atividade.obj.comprovante.url }}" target="_blank">Visualizar</a></p>
         </div>
         {% empty %}
