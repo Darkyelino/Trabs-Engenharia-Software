@@ -6,7 +6,8 @@
     font-family: Arial, sans-serif;
 }
 
-html, body {
+html,
+body {
     height: 100%;
     background-color: #f4f4f4;
 }
@@ -36,7 +37,8 @@ img {
 .container {
     display: flex;
     flex: 1;
-    min-height: 0; /* previne overflow em telas pequenas */
+    min-height: 0;
+    /* previne overflow em telas pequenas */
 }
 
 /* Sidebar */
@@ -133,7 +135,7 @@ aside.collapsed h4 {
 }
 
 /* Seções dentro do conteúdo */
-.content > section {
+.content>section {
     flex: 1;
 }
 

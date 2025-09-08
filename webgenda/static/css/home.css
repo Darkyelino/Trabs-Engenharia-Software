@@ -56,7 +56,8 @@ table {
     background: white;
 }
 
-th, td {
+th,
+td {
     padding: 15px;
     text-align: center;
     border: 1px solid #ddd;
@@ -82,7 +83,8 @@ td:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo escurecido */
     display: flex;
     align-items: center;
     justify-content: center;
