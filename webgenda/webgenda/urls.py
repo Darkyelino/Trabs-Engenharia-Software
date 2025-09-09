@@ -15,23 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from app_webgenda import views
+from django.contrib.auth import views as auth_views
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('adicionar-evento/', views.adicionar_evento, name='adicionar_evento'),
-    path('atividades/', views.atividades, name='atividades'),
-    path('atividades/pesquisa-cadastrar/', views.cad_atividadepesquisa, name='cad_atividadepesquisa'),
-    path('atividades/ensino-cadastrar/', views.cad_atividadeensino, name='cad_atividadeensino'),
-    path('atividades/extensao-cadastrar/', views.cad_atividadeextensao, name='cad_atividadeextensao'),
-    path('atividades/administracao-cadastrar/', views.cad_atividadeadministracao, name='cad_atividadeadministracao'),
-    path('atividades/editar/<str:tipo>/<int:atividade_id>/', views.editar_atividade, name='editar_atividade'),
-    path('atividades/excluir/<str:tipo>/<int:atividade_id>/', views.excluir_atividade, name='excluir_atividade'),
-    path('cadastro/docente/', views.cad_docentes, name='cad_docentes'),
+    path('login/', auth_views.LoginView.as_view(template_name='login/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', include('agenda.urls')),
 ]
 
 if settings.DEBUG:

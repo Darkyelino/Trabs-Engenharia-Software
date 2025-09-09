@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DocAcademy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/login/login.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <img src="{% static 'img/logo_docacademy_horizontal.png' %}" alt="DocAcademy Logo" class="login-logo">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-field">
+                <label for="id_username">Usuário:</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="form-field password-wrapper">
+                <label for="id_password">Senha:</label>
+                {{ form.password }}
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Entrar</button>
+
+            <div class="login-links">
+                <a href="#">Esqueceu a senha?</a>
+                <a href="#">Registre-se</a>
+            </div>
+        </form>
+        <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

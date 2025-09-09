@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Agenda{% endblock %}
+
+{% block content %}
+<div class="calendar-container" 
+     data-api-url="{% url 'api_dados_dia' ano=0 mes=0 dia=0 %}"
+     data-add-event-url-base="{% url 'cadastrar_evento' ano=0 mes=0 dia=0 %}"
+     data-delete-event-url-base="{% url 'excluir_evento' id_evento=0 %}">
+    <div class="calendar-header">
+        <a href="?year={{ prev_year }}&month={{ prev_month }}" class="btn-nav">&lt; Anterior</a>
+        
+        <h2>{{ current_month_name }} {{ current_year }}</h2>
+        
+        <a href="?year={{ next_year }}&month={{ next_month }}" class="btn-nav">Próximo &gt;</a>
+    </div>
+
+    {{ html_calendar|safe }}
+    
+</div>
+<div id="details-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2 id="modal-title"></h2>
+        <div id="modal-body"></div>
+        <div id="modal-actions" class="form-actions" style="margin-top: 20px;"></div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Confirmar Exclusão</h1>
+</div>
+
+<div class="form-container">
+    <p>Você tem certeza que deseja excluir permanentemente o item abaixo?</p>
+    
+    <div class="activity-card" style="margin-top: 20px; margin-bottom: 20px;">
+        <h3>{{ item.titulo }}</h3>
+        <p><strong>Tipo:</strong> {{ tipo_item }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn-danger">Sim, Excluir</button>
+            <a href="{% url 'agenda' %}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
