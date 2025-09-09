@@ -104,3 +104,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if(closeButton) { closeButton.onclick = function() { modal.style.display = "none"; } }
     window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const userDropdown = document.querySelector('.user-dropdown');
+
+    if (userDropdown) {
+        const trigger = userDropdown.querySelector('.user-trigger');
+        const menu = userDropdown.querySelector('.dropdown-menu');
+
+        trigger.addEventListener('click', function (event) {
+            event.stopPropagation(); 
+            menu.classList.toggle('show');
+        });
+
+        window.addEventListener('click', function (event) {
+            if (menu.classList.contains('show')) {
+                menu.classList.remove('show');
+            }
+        });
+    }
+});

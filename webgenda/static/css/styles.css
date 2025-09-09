@@ -54,11 +54,90 @@ a {
     color: var(--navy-blue);
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
 .header-right i {
     font-size: 1.5em;
     margin-left: 20px;
     cursor: pointer;
     color: var(--white);
+}
+
+.user-name {
+    margin: 0 0 0 15px;
+    font-weight: bold;
+}
+
+.user-dropdown {
+    position: relative;
+    margin-left: 15px;
+}
+
+.user-trigger {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.user-trigger:hover {
+    background-color: var(--light-navy);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: var(--white);
+    color: var(--text-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 160px;
+    z-index: 1001;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+.dropdown-menu.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: background-color 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--background-gray);
+}
+
+.logout-form {
+    margin: 0;
+}
+.logout-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--text-color);
+}
+.logout-button:hover {
+    background-color: var(--background-gray);
 }
 
 .header-logo,
@@ -172,6 +251,10 @@ a {
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
+}
+
+.main-content.full-width {
+    margin-left: 0;
 }
 
 .footer {

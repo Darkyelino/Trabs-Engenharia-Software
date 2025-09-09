@@ -18,11 +18,32 @@
             </div>
             <div class="header-right">
                 <i class="bi bi-brightness-high-fill"></i>
-                <i class="bi bi-person-circle"></i>
+
+                {% if user.is_authenticated %}
+                <div class="user-dropdown">
+                    <div class="user-trigger">
+                        {% if docente_logado %}
+                            <span class="user-name">{{ docente_logado.nome }}</span>
+                        {% endif %}
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+
+                    <div class="dropdown-menu">
+                        <a href="#">Meu Perfil</a>
+                        <form action="{% url 'logout' %}" method="post" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Sair</button>
+                        </form>
+                    </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn-primary">Entrar</a>
+                </div>
+                {% endif %}
             </div>
         </header>
 
         <div class="page-body">
+            {% if user.is_authenticated %}
             <nav id="sidebar">
                 <div class="sidebar-header">
                     <button type="button" id="sidebarCollapse" class="btn">
@@ -46,6 +67,7 @@
                     </li>
                 </ul>
             </nav>
+            {% endif %}
 
             <main class="main-content">
                 {% block content %}{% endblock %}
@@ -62,6 +84,8 @@
 
             <div class="footer-right"></div>
         </footer>
+        {% if user.is_authenticated %}
         <script src="{% static 'js/script.js' %}"></script>
+        {% endif %}
     </body>
 </html>

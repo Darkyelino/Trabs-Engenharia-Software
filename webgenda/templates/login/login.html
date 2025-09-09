@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DocAcademy</title>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/login/login.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <h1>DocAcademy</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 15px;">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>

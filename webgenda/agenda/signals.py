@@ -134,10 +134,10 @@ def inserir_tipoensino(sender, **kwargs):
 @receiver(post_migrate)
 def criar_dados_iniciais(sender, **kwargs):
     if not Docentes.objects.filter(username='teste').exists():
-        Docentes.objects.create(
+        Docentes.objects.create_user(
             nome='Docente Teste',
             username='teste',
-            senha='123456',
+            password='123456',
             email='docente@teste.com'
         )
-        print("Docente de teste criado.")
+        print("Docente de teste criado com sucesso.")

@@ -1,11 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class Docentes(models.Model):
-    id_docente = models.AutoField(primary_key=True)
+class Docentes(AbstractUser):
     nome = models.CharField(max_length=255)
-    username = models.CharField(max_length=255, unique=True)
-    senha = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.nome or self.username
 
 class Administrador(models.Model):
     id_administrador = models.AutoField(primary_key=True)
