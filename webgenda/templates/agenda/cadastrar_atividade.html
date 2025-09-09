@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Atividade{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Cadastrar Nova Atividade</h1>
+</div>
+
+<div class="form-container">
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'Pesquisa')">Pesquisa</button>
+        <button class="tab-button" onclick="openTab(event, 'Ensino')">Ensino</button>
+        <button class="tab-button" onclick="openTab(event, 'Extensao')">Extensão</button>
+        <button class="tab-button" onclick="openTab(event, 'Administracao')">Administração</button>
+    </div>
+
+    <div id="Pesquisa" class="tab-content" style="display: block;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="pesquisa">
+            {{ form_pesquisa.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salvar Atividade de Administração</button>
+                <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="Ensino" class="tab-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="ensino">
+            {{ form_ensino.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salvar Atividade de Administração</button>
+                <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="Extensao" class="tab-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="extensao">
+            {{ form_extensao.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Salvar Atividade de Administração</button>
+                <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="Administracao" class="tab-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="administracao">
+            {{ form_administracao.as_p }}
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Salvar Atividade de Administração</button>
+                <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

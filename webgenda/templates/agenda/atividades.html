@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Minhas Atividades{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Minhas Atividades</h1>
+    <a href="{% url 'cadastrar_atividade' %}" class="btn-primary">Cadastrar Nova Atividade</a>
+</div>
+
+<div class="insights-grid">
+    <div class="insight-card">
+        <h2>{{ total_count }}</h2>
+        <p>Total de Atividades</p>
+    </div>
+    <div class="insight-card">
+        <h2>{{ pesquisa_count }}</h2>
+        <p>Pesquisa</p>
+    </div>
+    <div class="insight-card">
+        <h2>{{ ensino_count }}</h2>
+        <p>Ensino</p>
+    </div>
+    <div class="insight-card">
+        <h2>{{ extensao_count }}</h2>
+        <p>Extensão</p>
+    </div>
+    <div class="insight-card">
+        <h2>{{ admin_count }}</h2>
+        <p>Administração</p>
+    </div>
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Pesquisa</h2>
+    {% if atividades_pesquisa %}
+        {% for atividade in atividades_pesquisa %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}
+                    <a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>
+                {% endif %}
+                <a href="{% url 'editar_atividade_pesquisa' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhuma atividade de pesquisa cadastrada.</p>
+    {% endif %}
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Ensino</h2>
+    {% if atividades_ensino %}
+        {% for atividade in atividades_ensino %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}
+                    <a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>
+                {% endif %}
+                <a href="{% url 'editar_atividade_ensino' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhuma atividade de ensino cadastrada.</p>
+    {% endif %}
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Extensão</h2>
+    {% if atividades_extensao %}
+        {% for atividade in atividades_extensao %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}
+                    <a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>
+                {% endif %}
+                <a href="{% url 'editar_atividade_extensao' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhuma atividade de extensão cadastrada.</p>
+    {% endif %}
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Administração</h2>
+    {% if atividades_administracao %}
+        {% for atividade in atividades_administracao %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}
+                    <a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>
+                {% endif %}
+                <a href="{% url 'editar_atividade_administracao' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhuma atividade de administração cadastrada.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

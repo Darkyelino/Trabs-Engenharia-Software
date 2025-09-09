@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Atividade{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Editar Atividade de {{ tipo_atividade }}</h1>
+</div>
+
+<div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Alterações</button>
+            {% if tipo_atividade == 'Pesquisa' %}
+                <a href="{% url 'excluir_atividade_pesquisa' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Ensino' %}
+                <a href="{% url 'excluir_atividade_ensino' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Extensão' %}
+                <a href="{% url 'excluir_atividade_extensao' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Administração' %}
+                <a href="{% url 'excluir_atividade_administracao' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% endif %}
+            <a href="{% url 'atividades' %}" class="btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
