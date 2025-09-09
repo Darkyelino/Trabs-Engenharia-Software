@@ -50,12 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (calendarTable) {
         calendarTable.addEventListener('click', function(event) {
             const target = event.target;
-            const isClickableDay = target.tagName === 'TD' && target.classList.contains('day') && (
-                target.classList.contains('with-event') ||
-                target.classList.contains('with-activity-start') ||
-                target.classList.contains('with-activity-middle') ||
-                target.classList.contains('with-activity-end')
-            );
+            const isClickableDay = target.tagName === 'TD' && target.classList.contains('day');
 
             if (isClickableDay) {
                 const dia = target.textContent;
