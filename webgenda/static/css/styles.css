@@ -293,7 +293,11 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+
+    background-color: var(--background-gray);
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .calendar-header h2 {
