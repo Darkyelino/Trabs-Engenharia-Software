@@ -270,9 +270,10 @@ a {
 .calendar-table td.with-event {
     background-color: #e7f5ff; 
     font-weight: bold;
-    color: var(--navy-blue);
-    cursor: pointer;
-    position: relative;
+}
+
+.calendar-table td.with-event:hover {
+    background-color: #d0ebff;
 }
 
 .calendar-table td.with-event::after {
@@ -289,15 +290,13 @@ a {
 
 .calendar-table td.day {
     cursor: pointer;
+    position: relative;
 }
 
 .calendar-table td.day:hover {
     background-color: #f8f9fa;
 }
 
-.calendar-table td.with-event:hover {
-    background-color: #d0ebff;
-}
 
 /* Estilos para períodos de ATIVIDADES */
 .calendar-table td.with-activity-start,
@@ -305,6 +304,18 @@ a {
 .calendar-table td.with-activity-end {
     background-color: #fff0f6;
 }
+
+.calendar-table td.with-atividade-pesquisa { background-color: #f3e8ff; }
+.calendar-table td.with-atividade-ensino { background-color: #e6f9f0; }
+.calendar-table td.with-atividade-extensao { background-color: #fff4e6; }
+.calendar-table td.with-atividade-administracao { background-color: #e0f7fa; }
+.calendar-table td.with-multiple-activities { background-color: #fff9c4; }
+
+.calendar-table td.with-atividade-pesquisa:hover { background-color: #e9d6ff; }
+.calendar-table td.with-atividade-ensino:hover { background-color: #d4f2e2; }
+.calendar-table td.with-atividade-extensao:hover { background-color: #ffeacc; }
+.calendar-table td.with-atividade-administracao:hover { background-color: #cdecf0; }
+.calendar-table td.with-multiple-activities:hover { background-color: #fff59d; }
 
 /* Estilo para o PRIMEIRO dia da atividade */
 .calendar-table td.with-activity-start {
@@ -320,7 +331,7 @@ a {
 
 /* Estilo combinado se um dia for início e fim (atividade de 1 dia) */
 .calendar-table td.with-activity-start.with-activity-end {
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /* Estilos para a página de Atividades */
