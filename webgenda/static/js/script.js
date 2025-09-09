@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const apiUrlBase = calendarContainer.dataset.apiUrl.replace('/0/0/0/', '');
     const addEventUrlBase = calendarContainer.dataset.addEventUrlBase.replace('/0/0/0/', '');
-    const deleteEventUrlBase = calendarContainer.dataset.deleteEventUrlBase.replace('/0/', '');
+    const deleteEventUrlBase = calendarContainer.dataset.deleteEventUrlBase.replace('0/', '');
     const ano = calendarContainer.dataset.currentYear;
     const mes = calendarContainer.dataset.currentMonth;
 
