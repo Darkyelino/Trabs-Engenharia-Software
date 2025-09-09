@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Meu Perfil</h1>
+    <a href="{% url 'editar_perfil' %}" class="btn-secondary">Editar Perfil</a>
+</div>
+
+<div class="form-container">
+    <p><strong>Nome:</strong> {{ user.nome }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+</div>
+{% endblock %}

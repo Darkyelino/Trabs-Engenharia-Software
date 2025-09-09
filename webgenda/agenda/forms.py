@@ -61,3 +61,9 @@ class EventoForm(forms.ModelForm):
             # Use um widget amigável para data e hora
             'data': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
+
+class EditarPerfilForm(forms.ModelForm):
+    class Meta:
+        model = Docentes
+        fields = ['nome', 'email']
+    

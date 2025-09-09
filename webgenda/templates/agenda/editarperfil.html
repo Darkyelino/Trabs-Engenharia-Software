@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Editar Perfil</h1>
+</div>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Salvar Alterações</button>
+            <a href="{% url 'perfil' %}" class="btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

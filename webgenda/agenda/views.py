@@ -158,7 +158,6 @@ def agenda_view(request):
         'next_year': next_year,
         'next_month': next_month,
         'active_page': 'agenda',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/agenda.html', contexto)
 
@@ -188,7 +187,6 @@ def atividades_view(request):
         'extensao_count': extensao_count,
         'admin_count': admin_count,
         'total_count': total_count,
-        'docente_logado': docente_logado,
     }
 
     return render(request, 'agenda/atividades.html', contexto)
@@ -247,13 +245,11 @@ def cadastrar_atividade_view(request):
         'form_ensino': form_ensino,
         'form_extensao': form_extensao,
         'form_administracao': form_administracao,
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/cadastraratividade.html', contexto)
 
 @login_required
 def editar_atividade_pesquisa_view(request, id_atividadepesquisa):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadePesquisa, pk=id_atividadepesquisa)
 
     if request.method == 'POST':
@@ -269,13 +265,11 @@ def editar_atividade_pesquisa_view(request, id_atividadepesquisa):
         'form': form,
         'active_page': 'atividades',
         'tipo_atividade': 'Pesquisa',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/editaratividade.html', contexto)
 
 @login_required
 def editar_atividade_ensino_view(request, id_atividadeensino):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeEnsino, pk=id_atividadeensino)
     if request.method == 'POST':
         form = AtividadeEnsinoForm(request.POST, request.FILES, instance=atividade)
@@ -290,13 +284,11 @@ def editar_atividade_ensino_view(request, id_atividadeensino):
         'form': form,
         'active_page': 'atividades',
         'tipo_atividade': 'Ensino',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/editaratividade.html', contexto)
 
 @login_required
 def editar_atividade_extensao_view(request, id_atividadeextensao):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeExtensao, pk=id_atividadeextensao)
     if request.method == 'POST':
         form = AtividadeExtensaoForm(request.POST, request.FILES, instance=atividade)
@@ -311,13 +303,11 @@ def editar_atividade_extensao_view(request, id_atividadeextensao):
         'form': form,
         'active_page': 'atividades',
         'tipo_atividade': 'Extensão',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/editaratividade.html', contexto)
 
 @login_required
 def editar_atividade_administracao_view(request, id_atividadeadministracao):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeAdministracao, pk=id_atividadeadministracao)
     if request.method == 'POST':
         form = AtividadeAdministracaoForm(request.POST, request.FILES, instance=atividade)
@@ -332,13 +322,11 @@ def editar_atividade_administracao_view(request, id_atividadeadministracao):
         'form': form,
         'active_page': 'atividades',
         'tipo_atividade': 'Administração',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/editaratividade.html', contexto)
 
 @login_required
 def excluir_atividade_pesquisa_view(request, id_atividadepesquisa):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadePesquisa, pk=id_atividadepesquisa)
 
     if request.method == 'POST':
@@ -350,13 +338,11 @@ def excluir_atividade_pesquisa_view(request, id_atividadepesquisa):
         'item': atividade,
         'tipo_item': 'Pesquisa',
         'active_page': 'atividades',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 @login_required
 def excluir_atividade_ensino_view(request, id_atividadeensino):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeEnsino, pk=id_atividadeensino)
     if request.method == 'POST':
         atividade.delete()
@@ -367,13 +353,11 @@ def excluir_atividade_ensino_view(request, id_atividadeensino):
         'item': atividade,
         'tipo_item': 'Ensino',
         'active_page': 'atividades',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 @login_required
 def excluir_atividade_extensao_view(request, id_atividadeextensao):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeExtensao, pk=id_atividadeextensao)
     if request.method == 'POST':
         atividade.delete()
@@ -384,13 +368,11 @@ def excluir_atividade_extensao_view(request, id_atividadeextensao):
         'item': atividade,
         'tipo_item': 'Extensão',
         'active_page': 'atividades',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 @login_required
 def excluir_atividade_administracao_view(request, id_atividadeadministracao):
-    docente_logado = request.user
     atividade = get_object_or_404(AtividadeAdministracao, pk=id_atividadeadministracao)
     if request.method == 'POST':
         atividade.delete()
@@ -401,14 +383,12 @@ def excluir_atividade_administracao_view(request, id_atividadeadministracao):
         'item': atividade,
         'tipo_item': 'Administração',
         'active_page': 'atividades',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 @login_required
 def cadastrar_evento_view(request, ano, mes, dia):
     docente_logado = request.user
-
     data_inicial = datetime(ano, mes, dia, 8, 0).strftime('%Y-%m-%dT%H:%M')
 
     if request.method == 'POST':
@@ -425,13 +405,11 @@ def cadastrar_evento_view(request, ano, mes, dia):
     contexto = {
         'form': form,
         'active_page': 'agenda',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/cadastrarevento.html', contexto)
 
 @login_required
 def excluir_evento_view(request, id_evento):
-    docente_logado = request.user
     evento = get_object_or_404(Eventos, pk=id_evento)
     if request.method == 'POST':
         evento.delete()
@@ -441,9 +419,33 @@ def excluir_evento_view(request, id_evento):
     contexto = {
         'item': evento,
         'tipo_item': 'Evento',
-        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
+
+@login_required
+def perfil_view(request):
+    contexto = {
+        'active_page': 'perfil'
+    }
+    return render(request, 'agenda/perfil.html', contexto)
+
+@login_required
+def editar_perfil_view(request):
+    if request.method == 'POST':
+        form = EditarPerfilForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Perfil atualizado com sucesso!')
+            return redirect('perfil')
+    else:
+        form = EditarPerfilForm(instance=request.user)
+
+    contexto = {
+        'form': form,
+        'active_page': 'perfil'
+    }
+    return render(request, 'agenda/editarperfil.html', contexto)
+
 
 @login_required
 def api_dados_dia_view(request, ano, mes, dia):

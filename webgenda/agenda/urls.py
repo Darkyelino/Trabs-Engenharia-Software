@@ -20,5 +20,8 @@ urlpatterns = [
     path('eventos/cadastrar/<int:ano>/<int:mes>/<int:dia>/', views.cadastrar_evento_view, name='cadastrar_evento'),
     path('eventos/excluir/<int:id_evento>/', views.excluir_evento_view, name='excluir_evento'),
 
+    path('perfil/', views.perfil_view, name='perfil'),
+    path('perfil/editar/', views.editar_perfil_view, name='editar_perfil'),
+
     path('api/dados-dia/<int:ano>/<int:mes>/<int:dia>/', views.api_dados_dia_view, name='api_dados_dia'),
 ]

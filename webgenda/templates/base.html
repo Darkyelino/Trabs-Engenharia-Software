@@ -22,14 +22,12 @@
                 {% if user.is_authenticated %}
                 <div class="user-dropdown">
                     <div class="user-trigger">
-                        {% if docente_logado %}
-                            <span class="user-name">{{ docente_logado.nome }}</span>
-                        {% endif %}
+                        <span class="user-name">{{ user.nome }}</span>
                         <i class="bi bi-person-circle"></i>
                     </div>
 
                     <div class="dropdown-menu">
-                        <a href="#">Meu Perfil</a>
+                        <a href="{% url 'perfil' %}">Meu Perfil</a>
                         <form action="{% url 'logout' %}" method="post" class="logout-form">
                             {% csrf_token %}
                             <button type="submit" class="logout-button">Sair</button>
