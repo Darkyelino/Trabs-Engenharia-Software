@@ -555,6 +555,36 @@ a {
     font-weight: bold;
 }
 
+.messages-container {
+    padding: 0 20px;
+    position: relative;
+    z-index: 1500;
+}
+
+.alert {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alert-success { background-color: var(--green); }
+.alert-error { background-color: var(--red); }
+.alert-info { background-color: var(--navy-blue); }
+.alert-warning { background-color: #ffc107; color: var(--text-color); }
+
+.close-alert {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    line-height: 1;
+}
+
 /* Estilos para a página de Cadastro de Atividade */
 .form-container {
     background-color: var(--white);

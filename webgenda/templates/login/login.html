@@ -12,6 +12,13 @@
 <body>
     <div class="login-container">
         <img src="{% static 'img/logo_docacademy_horizontal.png' %}" alt="DocAcademy Logo" class="login-logo">
+
+        {% if form.errors %}
+            <div class="alert alert-error" style="margin-bottom: 20px;">
+                <p>Seu nome de usuário e senha não correspondem. Por favor, tente novamente.</p>
+            </div>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %}
             
