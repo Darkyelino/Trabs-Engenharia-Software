@@ -153,6 +153,7 @@ def agenda_view(request):
         'html_calendar': html_calendar,
         'current_year': year,
         'current_month_name': month_name,
+        'current_month_number': month,
         'prev_year': prev_year,
         'prev_month': prev_month,
         'next_year': next_year,

@@ -32,20 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('details-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalBody = document.getElementById('modal-body');
+    const modalActions = document.getElementById('modal-actions');
     const closeButton = document.querySelector('.close-button');
-    const calendarHeader = document.querySelector('.calendar-header h2');
     const calendarContainer = document.querySelector('.calendar-container');
 
-    if (!calendarContainer || !calendarContainer.dataset.apiUrl) {
-        console.error("ERRO: O atributo 'data-api-url' não foi encontrado na div .calendar-container do HTML. A interatividade não funcionará.");
+    if (!calendarContainer || !calendarContainer.dataset.apiUrl || !calendarContainer.dataset.addEventUrlBase || !calendarContainer.dataset.deleteEventUrlBase || !calendarContainer.dataset.currentYear || !calendarContainer.dataset.currentMonth) {
+        console.error("ERRO: Atributos 'data-' importantes faltando na div .calendar-container do HTML. A interatividade não funcionará.");
         return;
     }
 
     const apiUrlBase = calendarContainer.dataset.apiUrl.replace('/0/0/0/', '');
-
-    const [mesNome, ano] = calendarHeader.textContent.trim().split(' ');
-    const meses = {'Janeiro':1, 'Fevereiro':2, 'Março':3, 'Abril':4, 'Maio':5, 'Junho':6, 'Julho':7, 'Agosto':8, 'Setembro':9, 'Outubro':10, 'Novembro':11, 'Dezembro':12};
-    const mes = meses[mesNome];
+    const addEventUrlBase = calendarContainer.dataset.addEventUrlBase.replace('/0/0/0/', '');
+    const deleteEventUrlBase = calendarContainer.dataset.deleteEventUrlBase.replace('/0/', '');
+    const ano = calendarContainer.dataset.currentYear;
+    const mes = calendarContainer.dataset.currentMonth;
 
     if (calendarTable) {
         calendarTable.addEventListener('click', function(event) {
@@ -63,12 +63,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     })
                     .then(data => {
                         modalTitle.textContent = `Compromissos para ${dia}/${mes}/${ano}`;
-                        
                         let contentHtml = '';
+
                         if (data.eventos && data.eventos.length > 0) {
                             contentHtml += '<h3>Eventos</h3><ul>';
                             data.eventos.forEach(evento => {
-                                contentHtml += `<li><div class="modal-item-header"><strong>${evento.titulo}</strong><a href="/eventos/excluir/${evento.id}/" class="delete-link">&times;</a></div><p>${evento.descricao}</p></li>`;
+                                const deleteUrl = deleteEventUrlBase + evento.id + '/';
+                                contentHtml += `<li><div class="modal-item-header"><strong>${evento.titulo}</strong><a href="${deleteUrl}" class="delete-link">&times;</a></div><p>${evento.descricao}</p></li>`;
                             });
                             contentHtml += '</ul>';
                         }
@@ -87,10 +88,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         modalBody.innerHTML = contentHtml;
 
-                        const modalActions = document.getElementById('modal-actions');
-                        const addEventUrl = `/eventos/cadastrar/${ano}/${mes}/${dia}/`;
+                        const addEventUrl = `${addEventUrlBase}/${ano}/${mes}/${dia}/`;
                         modalActions.innerHTML = `<a href="${addEventUrl}" class="btn-primary">Adicionar Evento para este dia</a>`;
-
+                        
                         modal.style.display = 'block';
                     })
                     .catch(error => {
@@ -100,9 +100,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    if(closeButton) { closeButton.onclick = function() { modal.style.display = "none"; } }
-    window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
+    if(closeButton) { 
+        closeButton.onclick = function() { 
+            modal.style.display = "none"; 
+        } 
+    }
+    window.onclick = function(event) { 
+        if (event.target == modal) { 
+            modal.style.display = "none"; 
+        } 
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function () {
