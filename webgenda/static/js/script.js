@@ -50,9 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (calendarTable) {
         calendarTable.addEventListener('click', function(event) {
             const target = event.target;
-
-            // --- LÓGICA DO CLIQUE ---
-            // Esta é a verificação crucial. Se as classes CSS no HTML não baterem com estas, nada acontece.
             const isClickableDay = target.tagName === 'TD' && target.classList.contains('day') && (
                 target.classList.contains('with-event') ||
                 target.classList.contains('with-activity-start') ||
@@ -62,10 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (isClickableDay) {
                 const dia = target.textContent;
-                console.log(`Dia clicado: ${dia}/${mes}/${ano}`);
-
                 const apiUrl = `${apiUrlBase}/${ano}/${mes}/${dia}/`;
-                console.log("Chamando API:", apiUrl);
 
                 fetch(apiUrl)
                     .then(response => {
@@ -73,15 +67,13 @@ document.addEventListener('DOMContentLoaded', function() {
                         return response.json();
                     })
                     .then(data => {
-                        console.log("Dados recebidos da API:", data);
-
                         modalTitle.textContent = `Compromissos para ${dia}/${mes}/${ano}`;
                         
                         let contentHtml = '';
                         if (data.eventos && data.eventos.length > 0) {
                             contentHtml += '<h3>Eventos</h3><ul>';
                             data.eventos.forEach(evento => {
-                                contentHtml += `<li><strong>${evento.titulo}</strong><p>${evento.descricao}</p></li>`;
+                                contentHtml += `<li><div class="modal-item-header"><strong>${evento.titulo}</strong><a href="/eventos/excluir/${evento.id}/" class="delete-link">&times;</a></div><p>${evento.descricao}</p></li>`;
                             });
                             contentHtml += '</ul>';
                         }
@@ -99,6 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
 
                         modalBody.innerHTML = contentHtml;
+
+                        const modalActions = document.getElementById('modal-actions');
+                        const addEventUrl = `/eventos/cadastrar/${ano}/${mes}/${dia}/`;
+                        modalActions.innerHTML = `<a href="${addEventUrl}" class="btn-primary">Adicionar Evento para este dia</a>`;
+
                         modal.style.display = 'block';
                     })
                     .catch(error => {
@@ -109,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Lógica para fechar o modal
     if(closeButton) { closeButton.onclick = function() { modal.style.display = "none"; } }
     window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } }
 });

@@ -18,7 +18,7 @@ class Eventos(models.Model):
     docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='eventos')
     titulo = models.CharField(max_length=255)
     descricao = models.TextField()
-    aluno = models.CharField(max_length=255)
+    aluno = models.CharField(max_length=255, null=True, blank=True)
     data = models.DateTimeField()
 
 class TipoPesquisa(models.Model):

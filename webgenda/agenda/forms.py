@@ -1,5 +1,5 @@
 from django import forms
-from .models import AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao
+from .models import *
 
 class AtividadePesquisaForm(forms.ModelForm):
     class Meta:
@@ -47,4 +47,17 @@ class AtividadeAdministracaoForm(forms.ModelForm):
         widgets = {
             'data_inicio': forms.DateInput(attrs={'type': 'date'}),
             'data_fim': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+class EventoForm(forms.ModelForm):
+    class Meta:
+        model = Eventos
+        exclude = ['docente']
+        labels = {
+            'titulo': 'Título do Evento',
+            'aluno': 'Aluno (Opcional)',
+        }
+        widgets = {
+            # Use um widget amigável para data e hora
+            'data': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }

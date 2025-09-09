@@ -315,7 +315,7 @@ def excluir_atividade_pesquisa_view(request, id_atividadepesquisa):
         'tipo_atividade': 'Pesquisa',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmar_exclusao_atividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
 
 def excluir_atividade_ensino_view(request, id_atividadeensino):
     atividade = get_object_or_404(AtividadeEnsino, pk=id_atividadeensino)
@@ -329,7 +329,7 @@ def excluir_atividade_ensino_view(request, id_atividadeensino):
         'tipo_atividade': 'Ensino',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmar_exclusao_atividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
 
 
 def excluir_atividade_extensao_view(request, id_atividadeextensao):
@@ -344,7 +344,7 @@ def excluir_atividade_extensao_view(request, id_atividadeextensao):
         'tipo_atividade': 'Extensão',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmar_exclusao_atividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
 
 
 def excluir_atividade_administracao_view(request, id_atividadeadministracao):
@@ -359,7 +359,40 @@ def excluir_atividade_administracao_view(request, id_atividadeadministracao):
         'tipo_atividade': 'Administração',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmar_exclusao_atividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusao.html', contexto)
+
+def cadastrar_evento_view(request, ano, mes, dia):
+    docente_logado = Docentes.objects.first()
+
+    data_inicial = datetime(ano, mes, dia, 8, 0).strftime('%Y-%m-%dT%H:%M')
+
+    if request.method == 'POST':
+        form = EventoForm(request.POST)
+        if form.is_valid():
+            novo_evento = form.save(commit=False)
+            novo_evento.docente = docente_logado
+            novo_evento.save()
+            messages.success(request, 'Evento cadastrado com sucesso!')
+            return redirect('agenda')
+    else:
+        form = EventoForm(initial={'data': data_inicial})
+
+    contexto = {
+        'form': form,
+        'active_page': 'agenda',
+    }
+    return render(request, 'agenda/cadastrarevento.html', contexto)
+
+def excluir_evento_view(request, id_evento):
+    evento = get_object_or_404(Eventos, pk=id_evento)
+    if request.method == 'POST':
+        evento.delete()
+        messages.success(request, f'Evento "{evento.titulo}" foi excluído com sucesso!')
+        return redirect('agenda')
+
+    contexto = { 'item': evento, 'tipo_item': 'Evento' }
+    return render(request, 'agenda/confirmarexclusao.html', contexto)
+
 
 def api_dados_dia_view(request, ano, mes, dia):
     data_selecionada = date(ano, mes, dia)
@@ -371,6 +404,7 @@ def api_dados_dia_view(request, ano, mes, dia):
     eventos = Eventos.objects.filter(data__date=data_selecionada)
     for evento in eventos:
         dados['eventos'].append({
+            'id': evento.id_evento,
             'titulo': evento.titulo,
             'descricao': evento.descricao,
             'aluno': evento.aluno
