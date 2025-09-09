@@ -311,11 +311,11 @@ def excluir_atividade_pesquisa_view(request, id_atividadepesquisa):
         return redirect('atividades')
 
     contexto = {
-        'atividade': atividade,
-        'tipo_atividade': 'Pesquisa',
+        'item': atividade,
+        'tipo_item': 'Pesquisa',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 def excluir_atividade_ensino_view(request, id_atividadeensino):
     atividade = get_object_or_404(AtividadeEnsino, pk=id_atividadeensino)
@@ -325,11 +325,11 @@ def excluir_atividade_ensino_view(request, id_atividadeensino):
         return redirect('atividades')
 
     contexto = {
-        'atividade': atividade,
-        'tipo_atividade': 'Ensino',
+        'item': atividade,
+        'tipo_item': 'Ensino',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 
 def excluir_atividade_extensao_view(request, id_atividadeextensao):
@@ -340,11 +340,11 @@ def excluir_atividade_extensao_view(request, id_atividadeextensao):
         return redirect('atividades')
 
     contexto = {
-        'atividade': atividade,
-        'tipo_atividade': 'Extensão',
+        'item': atividade,
+        'tipo_item': 'Extensão',
         'active_page': 'atividades'
     }
-    return render(request, 'agenda/confirmarexclusaoatividade.html', contexto)
+    return render(request, 'agenda/confirmarexclusao.html', contexto)
 
 
 def excluir_atividade_administracao_view(request, id_atividadeadministracao):
@@ -355,8 +355,8 @@ def excluir_atividade_administracao_view(request, id_atividadeadministracao):
         return redirect('atividades')
 
     contexto = {
-        'atividade': atividade,
-        'tipo_atividade': 'Administração',
+        'item': atividade,
+        'tipo_item': 'Administração',
         'active_page': 'atividades'
     }
     return render(request, 'agenda/confirmarexclusao.html', contexto)
