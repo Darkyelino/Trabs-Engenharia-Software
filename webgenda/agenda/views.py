@@ -19,15 +19,27 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
         
         css_classes = ['day']
         if day in self.eventos_e_atividades:
-            tipos_no_dia = self.eventos_e_atividades[day]
+            compromissos = self.eventos_e_atividades[day]
             
-            if 'evento' in tipos_no_dia:
+            eventos = {c for c in compromissos if c[0] == 'evento'}
+            atividades = {c for c in compromissos if c[0] != 'evento'}
+            
+            if eventos:
                 css_classes.append('with-event')
-            if 'atividade_inicio' in tipos_no_dia:
+                
+            tipos_de_atividade = {act[0] for act in atividades}
+            if len(tipos_de_atividade) > 1:
+                css_classes.append('with-multiple-activities')
+            elif len(tipos_de_atividade) == 1:
+                tipo_unico = tipos_de_atividade.pop()
+                css_classes.append(f'with-atividade-{tipo_unico}')
+
+            posicoes = {act[1] for act in atividades if act[1]}
+            if 'start' in posicoes:
                 css_classes.append('with-activity-start')
-            if 'atividade_meio' in tipos_no_dia:
+            if 'middle' in posicoes:
                 css_classes.append('with-activity-middle')
-            if 'atividade_fim' in tipos_no_dia:
+            if 'end' in posicoes:
                 css_classes.append('with-activity-end')
 
         return f'<td class="{" ".join(css_classes)}">{day}</td>'
@@ -59,6 +71,8 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
         return f'<tr>{s}</tr>'
 
 def agenda_view(request):
+    docente_logado = Docentes.objects.first()
+
     if sys.platform.startswith('win'):
         locale_str = 'ptb'
     else:
@@ -90,23 +104,27 @@ def agenda_view(request):
 
     dias_marcados = {}
 
-    eventos = Eventos.objects.filter(data__year=year, data__month=month)
-
+    eventos = Eventos.objects.filter(data__year=year, data__month=month, docente=docente_logado)
     for evento in eventos:
         dia = evento.data.day
-        if dia not in dias_marcados:
-            if dia not in dias_marcados:
-                dias_marcados[dia] = set()
-        dias_marcados[dia].add('evento')
+        if dia not in dias_marcados: dias_marcados[dia] = set()
+        dias_marcados[dia].add(('evento', None))
 
-    modelos_de_atividade = [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]
+    modelos_map = {
+        'pesquisa': AtividadePesquisa,
+        'ensino': AtividadeEnsino,
+        'extensao': AtividadeExtensao,
+        'administracao': AtividadeAdministracao,
+    }
     
-    for modelo in modelos_de_atividade:
-        # Busca atividades que começam OU terminam no mês atual
+    for tipo_str, modelo in modelos_map.items():
         atividades = modelo.objects.filter(
-            data_inicio__year=year, data_inicio__month=month
-        ) | modelo.objects.filter(
-            data_fim__year=year, data_fim__month=month
+            id_docente=docente_logado,
+            data_inicio__year__lte=year,
+            data_fim__year__gte=year
+        ).filter(
+            data_inicio__month__lte=month,
+            data_fim__month__gte=month
         )
         
         for atividade in atividades:
@@ -115,15 +133,14 @@ def agenda_view(request):
                 dia_atual = atividade.data_inicio + timedelta(days=i)
                 if dia_atual.year == year and dia_atual.month == month:
                     dia = dia_atual.day
-                    if dia not in dias_marcados:
-                        dias_marcados[dia] = set()
+                    if dia not in dias_marcados: dias_marcados[dia] = set()
 
-                    if i == 0:
-                        dias_marcados[dia].add('atividade_inicio')
-                    elif i == delta.days:
-                        dias_marcados[dia].add('atividade_fim')
-                    else:
-                        dias_marcados[dia].add('atividade_meio')
+                    posicao = 'middle'
+                    if i == 0: posicao = 'start'
+                    if i == delta.days: posicao = 'end'
+                    if delta.days == 0: posicao = 'single'
+
+                    dias_marcados[dia].add((tipo_str, posicao))
 
     cal = SafeHTMLCalendar(eventos_e_atividades=dias_marcados)
     
@@ -139,6 +156,7 @@ def agenda_view(request):
         'next_year': next_year,
         'next_month': next_month,
         'active_page': 'agenda',
+        'docente_logado': docente_logado,
     }
     return render(request, 'agenda/agenda.html', contexto)
 
@@ -225,7 +243,7 @@ def cadastrar_atividade_view(request):
         'form_extensao': form_extensao,
         'form_administracao': form_administracao,
     }
-    return render(request, 'agenda/cadastrar_atividade.html', contexto)
+    return render(request, 'agenda/cadastraratividade.html', contexto)
 
 def editar_atividade_pesquisa_view(request, id_atividadepesquisa):
     atividade = get_object_or_404(AtividadePesquisa, pk=id_atividadepesquisa)
