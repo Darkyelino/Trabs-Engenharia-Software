@@ -67,7 +67,7 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
         return f'<th class="{self.cssclasses_weekday_head[day]}">{day_abbr}</th>'
 
     def formatweekheader(self):
-        header_html = ''.join(f'<th>{DIAS_ABREVIADOS_PT_BR[i]}</th>' for i in self.iterweekdays())
+        header_html = ''.join(f'<th>{day_name}</th>' for day_name in DIAS_ABREVIADOS_PT_BR)
         return f'<tr>{header_html}</tr>'
 
     def formatweek(self, theweek):
