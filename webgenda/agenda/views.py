@@ -9,6 +9,9 @@ from datetime import date, datetime, timedelta
 import locale
 import sys
 
+MESES_PT_BR = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+DIAS_ABREVIADOS_PT_BR = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
+
 class SafeHTMLCalendar(calendar.HTMLCalendar):
     def __init__(self, firstweekday=calendar.SUNDAY, eventos_e_atividades=None):
         super().__init__(firstweekday)
@@ -64,8 +67,8 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
         return f'<th class="{self.cssclasses_weekday_head[day]}">{day_abbr}</th>'
 
     def formatweekheader(self):
-        s = ''.join(self.formatweekday(i) for i in self.iterweekdays())
-        return f'<tr>{s}</tr>'
+        header_html = ''.join(f'<th>{DIAS_ABREVIADOS_PT_BR[i]}</th>' for i in self.iterweekdays())
+        return f'<tr>{header_html}</tr>'
 
     def formatweek(self, theweek):
         s = ''.join(self.formatday(d, wd) for (d, wd) in theweek)
@@ -147,7 +150,7 @@ def agenda_view(request):
     cal = SafeHTMLCalendar(eventos_e_atividades=dias_marcados)
     
     html_calendar = cal.formatmonth(year, month)
-    month_name = calendar.month_name[month].capitalize()
+    month_name = MESES_PT_BR[month - 1]
 
     contexto = {
         'html_calendar': html_calendar,
