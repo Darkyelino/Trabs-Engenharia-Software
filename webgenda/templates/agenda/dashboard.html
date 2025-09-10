@@ -7,23 +7,25 @@
     <h1>Dashboard</h1>
     <div class="filter-dropdown">
         <button class="filter-button">
-            {% if current_filter == 'last_30_days' %}Últimos 30 Dias
-            {% elif current_filter == 'this_month' %}Este Mês
-            {% elif current_filter == 'last_month' %}Mês Passado
+            {% if current_filter == 'last_7_days' %}Últimos 7 Dias
+            {% elif current_filter == 'last_14_days' %}Últimos 14 Dias
+            {% elif current_filter == 'last_month' %}Último Mês
+            {% elif current_filter == 'last_year' %}Último Ano
             {% else %}Todo o Período
             {% endif %}
             <i class="bi bi-chevron-down"></i>
         </button>
         <div class="filter-menu">
             <a href="{% url 'dashboard' %}?filter=all_time">Todo o Período</a>
-            <a href="{% url 'dashboard' %}?filter=last_30_days">Últimos 30 Dias</a>
-            <a href="{% url 'dashboard' %}?filter=this_month">Este Mês</a>
-            <a href="{% url 'dashboard' %}?filter=last_month">Mês Passado</a>
+            <a href="{% url 'dashboard' %}?filter=last_7_days">Últimos 7 Dias</a>
+            <a href="{% url 'dashboard' %}?filter=last_14_days">Últimos 14 Dias</a>
+            <a href="{% url 'dashboard' %}?filter=last_month">Último Mês</a>
+            <a href="{% url 'dashboard' %}?filter=last_year">Último Ano</a>
         </div>
     </div>
 </div>
 
-<div class="insights-grid">
+<div class="insights-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
     <div class="insight-card">
         <h2>{{ eventos_count }}</h2>
         <p>Eventos na Agenda</p>
@@ -32,45 +34,14 @@
         <h2>{{ total_count }}</h2>
         <p>Total de Atividades</p>
     </div>
-    <div class="insight-card">
-        <h2>{{ pesquisa_count }}</h2>
-        <p>Pesquisa</p>
-    </div>
-    <div class="insight-card">
-        <h2>{{ ensino_count }}</h2>
-        <p>Ensino</p>
-    </div>
-    <div class="insight-card">
-        <h2>{{ extensao_count }}</h2>
-        <p>Extensão</p>
-    </div>
-    <div class="insight-card">
-        <h2>{{ admin_count }}</h2>
-        <p>Administração</p>
-    </div>
 </div>
 
 <div class="dashboard-grid">
     <div class="dashboard-card">
         <h3><i class="bi bi-calendar-event"></i> Próximos Eventos</h3>
-        <ul class="event-list">
-            {% for evento in proximos_eventos %}
-                <li class="event-item">
-                    <span class="event-date">{{ evento.data|date:"d/m" }}</span>
-                    <span class="event-title">{{ evento.titulo }}</span>
-                </li>
-            {% empty %}
-                <li class="event-item-empty">Nenhum evento futuro encontrado.</li>
-            {% endfor %}
-        </ul>
     </div>
-
     <div class="dashboard-card">
         <h3><i class="bi bi-lightning-fill"></i> Acessos Rápidos</h3>
-        <div class="quick-actions">
-            <a href="{% url 'cadastrar_atividade' %}" class="btn-primary">Cadastrar Nova Atividade</a>
-            <a href="{% url 'agenda' %}" class="btn-secondary">Ver Agenda Completa</a>
-        </div>
     </div>
 </div>
 {% endblock %}

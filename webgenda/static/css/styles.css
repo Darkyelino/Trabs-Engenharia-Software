@@ -842,3 +842,47 @@ a {
 .filter-dropdown:hover .filter-menu {
     display: block;
 }
+
+/* --- ESTILOS PARA FILTROS E PAGINAÇÃO --- */
+.filter-bar {
+    background-color: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.filter-form {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.filter-group label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.filter-group select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
+/* Estilos para a Paginação */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+.pagination .step-links a {
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    color: var(--navy-blue);
+    border-radius: 5px;
+    margin: 0 2px;
+}
+.pagination .step-links a:hover {
+    background-color: var(--background-gray);
+}
+.pagination .current {
+    margin: 0 10px;
+    color: #6c757d;
+}

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.core.paginator import Paginator
 from .forms import *
 from .models import *
 import calendar
@@ -171,28 +172,38 @@ def agenda_view(request):
 def atividades_view(request):
     docente_logado = request.user
 
-    atividades_pesquisa = AtividadePesquisa.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
-    atividades_ensino = AtividadeEnsino.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
-    atividades_extensao = AtividadeExtensao.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
-    atividades_administracao = AtividadeAdministracao.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
+    selected_year = request.GET.get('year', 'all')
+    items_per_page = int(request.GET.get('per_page', 5))
 
-    pesquisa_count = atividades_pesquisa.count()
-    ensino_count = atividades_ensino.count()
-    extensao_count = atividades_extensao.count()
-    admin_count = atividades_administracao.count()
-    total_count = pesquisa_count + ensino_count + extensao_count + admin_count
+    # Lógica de Paginação para cada tipo de atividade
+    def paginate_queryset(model, page_number_param):
+        query = model.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
+        if selected_year != 'all':
+            query = query.filter(data_inicio__year=selected_year)
+        
+        paginator = Paginator(query, items_per_page)
+        page_number = request.GET.get(page_number_param, 1)
+        return paginator.get_page(page_number)
+
+    atividades_pesquisa_page = paginate_queryset(AtividadePesquisa, 'pesquisa_page')
+    atividades_ensino_page = paginate_queryset(AtividadeEnsino, 'ensino_page')
+    atividades_extensao_page = paginate_queryset(AtividadeExtensao, 'extensao_page')
+    atividades_administracao_page = paginate_queryset(AtividadeAdministracao, 'admin_page')
+    
+    # Pega todos os anos em que há atividades para popular o filtro
+    years = set()
+    for model in [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]:
+        years.update(model.objects.filter(id_docente=docente_logado).values_list('data_inicio__year', flat=True))
 
     contexto = {
         'active_page': 'atividades',
-        'atividades_pesquisa': atividades_pesquisa,
-        'atividades_ensino': atividades_ensino,
-        'atividades_extensao': atividades_extensao,
-        'atividades_administracao': atividades_administracao,
-        'pesquisa_count': pesquisa_count,
-        'ensino_count': ensino_count,
-        'extensao_count': extensao_count,
-        'admin_count': admin_count,
-        'total_count': total_count,
+        'atividades_pesquisa': atividades_pesquisa_page,
+        'atividades_ensino': atividades_ensino_page,
+        'atividades_extensao': atividades_extensao_page,
+        'atividades_administracao': atividades_administracao_page,
+        'available_years': sorted(list(filter(None, years)), reverse=True),
+        'selected_year': selected_year,
+        'items_per_page': items_per_page,
     }
 
     return render(request, 'agenda/atividades.html', contexto)
@@ -500,41 +511,33 @@ def dashboard_view(request):
     
     filter_option = request.GET.get('filter', 'all_time')
     
-    if filter_option == 'last_30_days':
-        start_date = today - timedelta(days=30)
+    if filter_option == 'last_7_days':
+        start_date = today - timedelta(days=7)
         end_date = today
-    elif filter_option == 'this_month':
-        start_date = today.replace(day=1)
+    elif filter_option == 'last_14_days':
+        start_date = today.replace(days=14)
         end_date = today
     elif filter_option == 'last_month':
-        last_month_end = today.replace(day=1) - timedelta(days=1)
-        start_date = last_month_end.replace(day=1)
-        end_date = last_month_end
-    else:
-        start_date = None
-        end_date = None
+        start_date = today - relativedelta(months=1)
+        end_date = today
+    elif filter_option == 'last_year':
+        start_date = today - relativedelta(years=1)
+        end_date = today
     
+    # Filtro de eventos
     eventos_query = Eventos.objects.filter(docente=docente_logado)
     if start_date and end_date:
         eventos_query = eventos_query.filter(data__range=[start_date, end_date])
     eventos_count = eventos_query.count()
 
-    pesquisa_query = AtividadePesquisa.objects.filter(id_docente=docente_logado)
-    ensino_query = AtividadeEnsino.objects.filter(id_docente=docente_logado)
-    extensao_query = AtividadeExtensao.objects.filter(id_docente=docente_logado)
-    admin_query = AtividadeAdministracao.objects.filter(id_docente=docente_logado)
-
-    if start_date and end_date:
-        pesquisa_query = pesquisa_query.filter(data_inicio__range=[start_date, end_date])
-        ensino_query = ensino_query.filter(data_inicio__range=[start_date, end_date])
-        extensao_query = extensao_query.filter(data_inicio__range=[start_date, end_date])
-        admin_query = admin_query.filter(data_inicio__range=[start_date, end_date])
-
-    pesquisa_count = pesquisa_query.count()
-    ensino_count = ensino_query.count()
-    extensao_count = extensao_query.count()
-    admin_count = admin_query.count()
-    total_count = pesquisa_count + ensino_count + extensao_count + admin_count
+    # Filtra o total de Atividades (sem separar por tipo)
+    total_count = 0
+    activity_models = [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]
+    for model in activity_models:
+        query = model.objects.filter(id_docente=docente_logado)
+        if start_date and end_date:
+            query = query.filter(data_inicio__range=[start_date, end_date])
+        total_count += query.count()
 
     proximos_eventos = Eventos.objects.filter(
         docente=docente_logado,
@@ -545,10 +548,6 @@ def dashboard_view(request):
         'active_page': 'dashboard',
         'eventos_count': eventos_count,
         'total_count': total_count,
-        'pesquisa_count': pesquisa_count,
-        'ensino_count': ensino_count,
-        'extensao_count': extensao_count,
-        'admin_count': admin_count,
         'proximos_eventos': proximos_eventos,
         'current_filter': filter_option,
     }

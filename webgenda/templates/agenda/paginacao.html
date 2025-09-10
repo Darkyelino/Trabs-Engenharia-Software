@@ -1,0 +1,15 @@
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?{{ request.GET.urlencode }}&{{ param_name }}={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?{{ request.GET.urlencode }}&{{ param_name }}={{ page_obj.next_page_number }}">Próxima &raquo;</a>
+        {% endif %}
+    </span>
+</div>
