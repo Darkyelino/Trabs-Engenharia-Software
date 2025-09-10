@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from .models import *
 
 class AtividadePesquisaForm(forms.ModelForm):
@@ -66,4 +67,8 @@ class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = Docentes
         fields = ['nome', 'email']
-    
+
+class DocenteRegistrationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Docentes
+        fields = UserCreationForm.Meta.fields + ('nome', 'email',)

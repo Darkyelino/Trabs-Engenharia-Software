@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - DocAcademy</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <img src="{% static 'img/logo_docacademy_horizontal_clara.png' %}" alt="DocAcademy Logo" class="login-logo">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Registrar</button>
+            <div class="login-links">
+                <a href="{% url 'login' %}">Já tem uma conta? Faça o login</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

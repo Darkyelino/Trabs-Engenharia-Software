@@ -21,6 +21,10 @@ body {
     height: 60px;
     margin-bottom: 25px;
 }
+.login-links {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
 .password-wrapper {
     position: relative;
 }

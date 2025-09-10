@@ -39,18 +39,8 @@
                 {% endif %}
             </div>
         </header>
-        
-        {% if messages %}
-            <div class="messages-container">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}">
-                        {{ message }}
-                        <button type="button" class="close-alert" onclick="this.parentElement.style.display='none';">&times;</button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
 
+        
         <div class="page-body">
             {% if user.is_authenticated %}
             <nav id="sidebar">
@@ -76,6 +66,17 @@
                     </li>
                 </ul>
             </nav>
+            {% endif %}
+            
+            {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                            <button type="button" class="close-alert" onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
             {% endif %}
 
             <main class="main-content">

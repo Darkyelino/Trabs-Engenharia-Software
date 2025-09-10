@@ -450,6 +450,18 @@ def editar_perfil_view(request):
     }
     return render(request, 'agenda/editarperfil.html', contexto)
 
+def register_view(request):
+    if request.method == 'POST':
+        form = DocenteRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Conta criada com sucesso para {username}! Você já pode fazer o login.')
+            return redirect('login')
+    else:
+        form = DocenteRegistrationForm()
+    
+    return render(request, 'login/registrar.html', {'form': form})
 
 @login_required
 def api_dados_dia_view(request, ano, mes, dia):
