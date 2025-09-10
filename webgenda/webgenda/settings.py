@@ -172,3 +172,16 @@ LOGOUT_REDIRECT_URL = 'login'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if 'DATABASE_URL' in os.environ: # Detecta se está em produção (no Render)
+    # Configuração de E-mail para Produção (SendGrid)
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_USER = 'apikey'
+    EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = 'd.moura250304@gmail.com'
+else:
+    # Configuração de E-mail para Desenvolvimento
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

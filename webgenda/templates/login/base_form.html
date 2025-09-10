@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - DocAcademy</title>
+    <link rel="stylesheet" href="{% static 'agenda/css/style.css' %}">
+    <style>
+        body { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px 0; background-color: var(--navy-blue); }
+        .form-box-container { background-color: var(--white); padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        .form-box-container h2 { color: var(--navy-blue); margin-bottom: 20px;}
+    </style>
+</head>
+<body>
+    <div class="form-box-container">
+        <h2>{% block form_title %}{% endblock %}</h2>
+        {% block form_content %}{% endblock %}
+    </div>
+</body>
+</html>
