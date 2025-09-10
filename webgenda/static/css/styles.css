@@ -622,6 +622,31 @@ a {
     margin-top: 20px;
 }
 
+/* --- ESTILOS PARA O CAMPO DE ARQUIVO (COMPROVANTE) --- */
+.comprovante-atual {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.comprovante-atual a {
+    color: var(--navy-blue);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.comprovante-atual .clear-checkbox {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+/* Estilo para os erros do formulário */
+.form-error {
+    color: var(--red);
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
 /* Estilo das Abas (Tabs) */
 .tabs {
     overflow: hidden;

@@ -10,20 +10,38 @@
 <div class="form-container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        {% for field in form %}
+            <div class="form-field">
+                {{ field.label_tag }}
+
+                {% if field.name == 'comprovante' %}
+                    {% if field.value %}
+                        <div class="comprovante-atual">
+                            <span>Arquivo atual:</span>
+                            <a href="{{ field.value.url }}" target="_blank">{{ field.value.name|truncatechars:30 }}</a>
+                            <br>
+                            <span class="clear-checkbox">
+                                {{ field }} </span>
+                        </div>
+                    {% else %}
+                        {{ field }} {% endif %}
+                {% else %}
+                    {{ field }}
+                {% endif %}
+                
+                {% if field.help_text %}
+                    <p class="form-help-text">{{ field.help_text|safe }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
         <div class="form-actions">
             <button type="submit" class="btn-primary">Salvar Alterações</button>
-            {% if tipo_atividade == 'Pesquisa' %}
-                <a href="{% url 'excluir_atividade_pesquisa' form.instance.pk %}" class="btn-danger">Excluir</a>
-            {% elif tipo_atividade == 'Ensino' %}
-                <a href="{% url 'excluir_atividade_ensino' form.instance.pk %}" class="btn-danger">Excluir</a>
-            {% elif tipo_atividade == 'Extensão' %}
-                <a href="{% url 'excluir_atividade_extensao' form.instance.pk %}" class="btn-danger">Excluir</a>
-            {% elif tipo_atividade == 'Administração' %}
-                <a href="{% url 'excluir_atividade_administracao' form.instance.pk %}" class="btn-danger">Excluir</a>
-            {% endif %}
-            <a href="{% url 'atividades' %}" class="btn-secondary">Cancelar</a>
-        </div>
+            </div>
     </form>
 </div>
 {% endblock %}
