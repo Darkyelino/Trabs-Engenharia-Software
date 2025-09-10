@@ -25,6 +25,11 @@ body {
     margin-top: 20px;
     font-size: 0.9em;
 }
+.form-help-text {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 5px;
+}
 .password-wrapper {
     position: relative;
 }
