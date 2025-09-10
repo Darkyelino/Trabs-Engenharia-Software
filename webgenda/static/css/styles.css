@@ -726,3 +726,71 @@ a {
 .delete-link:hover {
     color: var(--red-hover);
 }
+
+/* --- ESTILOS PARA A PÁGINA DE DASHBOARD --- */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.dashboard-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dashboard-card h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--navy-blue);
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-card h3 i {
+    margin-right: 10px;
+}
+
+.event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.event-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.event-list .event-item:last-child {
+    border-bottom: none;
+}
+
+.event-date {
+    background-color: var(--light-navy);
+    color: var(--white);
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.event-item-empty {
+    color: #6c757d;
+    padding: 10px 0;
+}
+
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.quick-actions .btn-primary,
+.quick-actions .btn-secondary {
+    text-align: center;
+}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .forms import *
 from .models import *
 import calendar
@@ -490,3 +491,29 @@ def api_dados_dia_view(request, ano, mes, dia):
             })
 
     return JsonResponse(dados)
+
+@login_required
+def dashboard_view(request):
+    docente_logado = request.user
+
+    pesquisa_count = AtividadePesquisa.objects.filter(id_docente=docente_logado).count()
+    ensino_count = AtividadeEnsino.objects.filter(id_docente=docente_logado).count()
+    extensao_count = AtividadeExtensao.objects.filter(id_docente=docente_logado).count()
+    admin_count = AtividadeAdministracao.objects.filter(id_docente=docente_logado).count()
+    total_count = pesquisa_count + ensino_count + extensao_count + admin_count
+
+    proximos_eventos = Eventos.objects.filter(
+        docente=docente_logado,
+        data__gte=timezone.now()
+    ).order_by('data')[:5]
+
+    contexto = {
+        'active_page': 'dashboard',
+        'total_count': total_count,
+        'pesquisa_count': pesquisa_count,
+        'ensino_count': ensino_count,
+        'extensao_count': extensao_count,
+        'admin_count': admin_count,
+        'proximos_eventos': proximos_eventos,
+    }
+    return render(request, 'agenda/dashboard.html', contexto)

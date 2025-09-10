@@ -56,7 +56,7 @@
                         <a href="{% url 'agenda' %}"><i class="bi bi-calendar-week"></i> <span>Agenda</span></a>
                     </li>
                     <li class="{% if active_page == 'dashboard' %}active{% endif %}">
-                        <a href="#"><i class="bi bi-grid-1x2-fill"></i> <span>Dashboard</span></a>
+                        <a href="{% url 'dashboard' %}"><i class="bi bi-grid-1x2-fill"></i> <span>Dashboard</span></a>
                     </li>
                     <li class="{% if active_page == 'atividades' %}active{% endif %}">
                         <a href="{% url 'atividades' %}"><i class="bi bi-check2-square"></i> <span>Atividades</span></a>
@@ -67,7 +67,7 @@
                 </ul>
             </nav>
             {% endif %}
-            
+
             {% if messages %}
                 <div class="messages-container">
                     {% for message in messages %}
