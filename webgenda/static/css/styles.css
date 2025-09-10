@@ -943,6 +943,14 @@ a {
     color: #6c757d;
 }
 
+/* Estilo para a contagem de resultados da paginação */
+.pagination-results-count {
+    color: #6c757d; /* Cinza sutil */
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 /* --- ESTILOS PARA A PÁGINA DE HISTÓRICO --- */
 .table-container {
     background-color: var(--white);

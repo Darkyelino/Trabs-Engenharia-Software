@@ -1,5 +1,11 @@
-{% if page_obj.paginator.num_pages > 1 %}
+{% if page_obj.paginator.num_pages > 1 or page_obj.paginator.count > 0 %}
 <div class="pagination">
+    
+    <div class="pagination-results-count">
+        Mostrando {{ page_obj.start_index }} - {{ page_obj.end_index }} de {{ page_obj.paginator.count }} registro{{ page_obj.paginator.count|pluralize:"s" }}.
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
     <span class="step-links">
         {% with p_name=param_name|default:"page" %}
             {% if page_obj.has_previous %}
@@ -15,5 +21,6 @@
             {% endif %}
         {% endwith %}
     </span>
+    {% endif %}
 </div>
 {% endif %}
