@@ -1,15 +1,19 @@
+{% if page_obj.paginator.num_pages > 1 %}
 <div class="pagination">
     <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?{{ request.GET.urlencode }}&{{ param_name }}={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
-        {% endif %}
+        {% with p_name=param_name|default:"page" %}
+            {% if page_obj.has_previous %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != p_name %}{{ key }}={{ value }}&{% endif %}{% endfor %}{{ p_name }}={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+            {% endif %}
 
-        <span class="current">
-            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-        </span>
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
 
-        {% if page_obj.has_next %}
-            <a href="?{{ request.GET.urlencode }}&{{ param_name }}={{ page_obj.next_page_number }}">Próxima &raquo;</a>
-        {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?{% for key, value in request.GET.items %}{% if key != p_name %}{{ key }}={{ value }}&{% endif %}{% endfor %}{{ p_name }}={{ page_obj.next_page_number }}">Próxima &raquo;</a>
+            {% endif %}
+        {% endwith %}
     </span>
 </div>
+{% endif %}
