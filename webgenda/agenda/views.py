@@ -523,7 +523,7 @@ def dashboard_view(request):
         start_date = today - timedelta(days=7)
         end_date = today
     elif filter_option == 'last_14_days':
-        start_date = today.replace(days=14)
+        start_date = today - timedelta(days=14)
         end_date = today
     elif filter_option == 'last_month':
         start_date = today - relativedelta(months=1)
