@@ -12,7 +12,15 @@
     <div class="calendar-header">
         <a href="?year={{ prev_year }}&month={{ prev_month }}" class="btn-nav">&lt; Anterior</a>
         
-        <h2>{{ current_month_name }} {{ current_year }}</h2>
+        <form method="get" class="date-selector-form">
+            <h2 style="margin: 0;">{{ current_month_name }}</h2>
+            <select name="year" onchange="this.form.submit()">
+                {% for year in year_range %}
+                    <option value="{{ year }}" {% if year == current_year %}selected{% endif %}>{{ year }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="month" value="{{ current_month_number }}">
+        </form>
         
         <a href="?year={{ next_year }}&month={{ next_month }}" class="btn-nav">Próximo &gt;</a>
     </div>

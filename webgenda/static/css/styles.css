@@ -421,6 +421,17 @@ a {
     border-radius: 10px;
 }
 
+.date-selector-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.date-selector-form select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+}
+
 /* Estilos para a página de Atividades */
 
 .page-header {
@@ -777,6 +788,15 @@ a {
     padding: 5px 10px;
     border-radius: 5px;
     margin-right: 15px;
+}
+
+.event-time {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--navy-blue);
+    background-color: #e7f5ff;
+    padding: 3px 8px;
+    border-radius: 5px;
 }
 
 .event-item-empty {

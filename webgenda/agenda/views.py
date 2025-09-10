@@ -118,6 +118,9 @@ def agenda_view(request):
         if dia not in dias_marcados: dias_marcados[dia] = set()
         dias_marcados[dia].add(('evento', None))
 
+    current_year = datetime.now().year
+    year_range = range(current_year - 5, current_year + 6)
+
     modelos_map = {
         'pesquisa': AtividadePesquisa,
         'ensino': AtividadeEnsino,
@@ -165,6 +168,7 @@ def agenda_view(request):
         'next_year': next_year,
         'next_month': next_month,
         'active_page': 'agenda',
+        'year_range': year_range,
     }
     return render(request, 'agenda/agenda.html', contexto)
 
@@ -490,7 +494,8 @@ def api_dados_dia_view(request, ano, mes, dia):
             'id': evento.id_evento,
             'titulo': evento.titulo,
             'descricao': evento.descricao,
-            'aluno': evento.aluno
+            'aluno': evento.aluno,
+            'hora': evento.data.strftime('%H:%M')
         })
 
     modelos_de_atividade = [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]

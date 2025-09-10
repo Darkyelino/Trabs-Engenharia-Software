@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             contentHtml += '<h3>Eventos</h3><ul>';
                             data.eventos.forEach(evento => {
                                 const deleteUrl = deleteEventUrlBase + evento.id + '/';
-                                contentHtml += `<li><div class="modal-item-header"><strong>${evento.titulo}</strong><a href="${deleteUrl}" class="delete-link">&times;</a></div><p>${evento.descricao}</p></li>`;
+                                contentHtml += `<li><div class="modal-item-header"><div><strong>${evento.titulo}</strong> <span class="event-time">${evento.hora}</span></div><a href="${deleteUrl}" class="delete-link">&times;</a></div><p>${evento.descricao}</p></li>`;
                             });
                             contentHtml += '</ul>';
                         }
