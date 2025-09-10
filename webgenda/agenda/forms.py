@@ -71,3 +71,10 @@ class DocenteRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Docentes
         fields = UserCreationForm.Meta.fields + ('nome', 'email',)
+        labels = {
+            'username': 'Nome de Usuário',
+            'nome': 'Nome Completo',
+            'email': 'E-mail',
+            'password1': 'Senha',
+            'password2': 'Confirmação de Senha',
+        }
