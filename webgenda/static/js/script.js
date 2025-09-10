@@ -133,11 +133,24 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#id_password');
+const password = document.querySelector('#id_password');
 
-    togglePassword.addEventListener('click', function (e) {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.classList.toggle('bi-eye');
-        this.classList.toggle('bi-eye-slash');
+togglePassword.addEventListener('click', function (e) {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+    this.classList.toggle('bi-eye');
+    this.classList.toggle('bi-eye-slash');
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const alerts = document.querySelectorAll('.alert-success');
+    
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            alert.classList.add('fade-out'); 
+            setTimeout(function() {
+                alert.style.display = 'none';
+            }, 500);
+        }, 5000);
     });
+});

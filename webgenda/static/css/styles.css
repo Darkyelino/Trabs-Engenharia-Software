@@ -567,19 +567,30 @@ a {
 }
 
 .messages-container {
-    padding: 0 20px;
-    position: relative;
-    z-index: 1500;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 2000;
+    width: 100%;
+    max-width: 350px;
 }
 
 .alert {
-    padding: 15px;
-    margin-top: 20px;
+     padding: 15px;
+    margin-top: 0;
+    margin-bottom: 15px;
     border-radius: 8px;
     color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.alert.fade-out {
+    opacity: 0;
 }
 
 .alert-success { background-color: var(--green); }
