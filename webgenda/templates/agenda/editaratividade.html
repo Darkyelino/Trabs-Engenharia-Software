@@ -41,6 +41,16 @@
 
         <div class="form-actions">
             <button type="submit" class="btn-primary">Salvar Alterações</button>
+            {% if tipo_atividade == 'Pesquisa' %}
+                <a href="{% url 'excluir_atividade_pesquisa' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Ensino' %}
+                <a href="{% url 'excluir_atividade_ensino' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Extensão' %}
+                <a href="{% url 'excluir_atividade_extensao' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% elif tipo_atividade == 'Administração' %}
+                <a href="{% url 'excluir_atividade_administracao' form.instance.pk %}" class="btn-danger">Excluir</a>
+            {% endif %}
+            <a href="{% url 'atividades' %}" class="btn-secondary">Cancelar</a>
             </div>
     </form>
 </div>
