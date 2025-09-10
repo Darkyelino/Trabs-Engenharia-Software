@@ -12,12 +12,21 @@
     </head>
 
     <body>
+        <script>
+            // Script para evitar o "flash" do tema claro (FOUC)
+            (function() {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                }
+            })();
+        </script>
         <header class="header">
             <div class="header-left">
                 <img src="{% static 'img/logo_docacademy_horizontal.png' %}" alt="DocAcademy Logo" class="header-logo">
             </div>
             <div class="header-right">
-                <i class="bi bi-brightness-high-fill"></i>
+                <i class="bi bi-brightness-high-fill" id="theme-toggle"></i>
 
                 {% if user.is_authenticated %}
                 <div class="user-dropdown">

@@ -154,3 +154,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     });
 });
+
+// funções para modo escuro
+document.addEventListener('DOMContentLoaded', function () {
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (themeToggle) {
+        if (localStorage.getItem('theme') === 'dark') {
+            themeToggle.classList.remove('bi-brightness-high-fill');
+            themeToggle.classList.add('bi-moon-fill');
+        }
+
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+
+            let theme = 'light';
+            if (document.body.classList.contains('dark-mode')) {
+                theme = 'dark';
+                themeToggle.classList.remove('bi-brightness-high-fill');
+                themeToggle.classList.add('bi-moon-fill');
+            } else {
+                themeToggle.classList.remove('bi-moon-fill');
+                themeToggle.classList.add('bi-brightness-high-fill');
+            }
+            localStorage.setItem('theme', theme);
+        });
+    }
+});

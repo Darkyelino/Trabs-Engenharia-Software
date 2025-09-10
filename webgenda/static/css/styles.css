@@ -24,6 +24,32 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--background-gray);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+    --background-gray: #121212;
+    --white: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333
+    --navy-blue-text-on-light-bg: #e0e0e0; 
+}
+
+/* Ajustes para modo escuro */
+body.dark-mode .header-left h1,
+body.dark-mode .header-right i,
+body.dark-mode .dashboard-card h3,
+body.dark-mode .page-header h1,
+body.dark-mode .activity-section h2,
+body.dark-mode .history-table thead th,
+body.dark-mode .calendar-header .btn-nav,
+body.dark-mode .event-time,
+body.dark-mode .filter-button {
+    color: #e0e0e0;
+}
+
+body.dark-mode .calendar-table th {
+    background-color: #2c2c2c;
 }
 
 a {
@@ -993,3 +1019,8 @@ a {
 .badge-ensino { background-color: #28a745; }
 .badge-extensão { background-color: #fd7e14; }
 .badge-administração { background-color: #17a2b8; }
+
+/* Adicione esta regra para os cards terem transição também */
+.form-container, .insight-card, .dashboard-card, .activity-card, .calendar-container {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
