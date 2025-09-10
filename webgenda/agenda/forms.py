@@ -66,7 +66,7 @@ class EventoForm(forms.ModelForm):
 class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = Docentes
-        fields = ['nome', 'email']
+        fields = ['nome', 'username', 'email']
 
 class DocenteRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
