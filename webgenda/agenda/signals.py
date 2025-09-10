@@ -130,14 +130,3 @@ def inserir_tipopesquisa(sender, **kwargs):
 def inserir_tipoensino(sender, **kwargs):
     for tipo in TIPOS_ENSINO:
         TipoEnsino.objects.get_or_create(tipo=tipo)
-
-@receiver(post_migrate)
-def criar_dados_iniciais(sender, **kwargs):
-    if not Docentes.objects.filter(username='teste').exists():
-        Docentes.objects.create_user(
-            nome='Docente Teste',
-            username='teste',
-            password='123456',
-            email='docente@teste.com'
-        )
-        print("Docente de teste criado com sucesso.")
