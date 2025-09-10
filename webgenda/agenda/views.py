@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.core.paginator import Paginator
@@ -11,6 +12,7 @@ from datetime import date, datetime, timedelta
 import locale
 import sys
 from dateutil.relativedelta import relativedelta
+from operator import itemgetter
 
 MESES_PT_BR = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 DIAS_ABREVIADOS_PT_BR = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
@@ -560,3 +562,57 @@ def dashboard_view(request):
         'current_filter': filter_option,
     }
     return render(request, 'agenda/dashboard.html', contexto)
+
+@login_required
+def historico_view(request):
+    docente_logado = request.user
+    todas_as_atividades = []
+
+    for ativ in AtividadePesquisa.objects.filter(id_docente=docente_logado):
+        todas_as_atividades.append({
+            'titulo': ativ.titulo,
+            'tipo_geral': 'Pesquisa',
+            'categoria': ativ.id_tipo.tipo,
+            'data_inicio': ativ.data_inicio,
+            'data_fim': ativ.data_fim,
+            'url_edicao': reverse('editar_atividade_pesquisa', args=[ativ.pk])
+        })
+    for ativ in AtividadeEnsino.objects.filter(id_docente=docente_logado):
+        todas_as_atividades.append({
+            'titulo': ativ.titulo,
+            'tipo_geral': 'Ensino',
+            'categoria': ativ.id_tipo.tipo,
+            'data_inicio': ativ.data_inicio,
+            'data_fim': ativ.data_fim,
+            'url_edicao': reverse('editar_atividade_ensino', args=[ativ.pk])
+        })
+    for ativ in AtividadeExtensao.objects.filter(id_docente=docente_logado):
+        todas_as_atividades.append({
+            'titulo': ativ.titulo,
+            'tipo_geral': 'Extensão',
+            'categoria': ativ.id_tipo.tipo,
+            'data_inicio': ativ.data_inicio,
+            'data_fim': ativ.data_fim,
+            'url_edicao': reverse('editar_atividade_extensao', args=[ativ.pk])
+        })
+    for ativ in AtividadeAdministracao.objects.filter(id_docente=docente_logado):
+        todas_as_atividades.append({
+            'titulo': ativ.titulo,
+            'tipo_geral': 'Administração',
+            'categoria': ativ.id_tipo.tipo,
+            'data_inicio': ativ.data_inicio,
+            'data_fim': ativ.data_fim,
+            'url_edicao': reverse('editar_atividade_administracao', args=[ativ.pk])
+        })
+    
+    todas_as_atividades.sort(key=itemgetter('data_inicio'), reverse=True)
+
+    paginator = Paginator(todas_as_atividades, 10)
+    page_number = request.GET.get('page')
+    atividades_paginadas = paginator.get_page(page_number)
+
+    contexto = {
+        'active_page': 'historico',
+        'atividades_paginadas': atividades_paginadas
+    }
+    return render(request, 'agenda/historico.html', contexto)

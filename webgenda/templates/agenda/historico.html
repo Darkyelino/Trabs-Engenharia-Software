@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Histórico de Atividades{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Histórico de Atividades</h1>
+</div>
+
+<div class="table-container">
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Data de Início</th>
+                <th>Data de Fim</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atividade in atividades_paginadas %}
+                <tr>
+                    <td>{{ atividade.titulo }}</td>
+                    <td><span class="badge badge-{{ atividade.tipo_geral|lower }}">{{ atividade.tipo_geral }}</span></td>
+                    <td>{{ atividade.categoria }}</td>
+                    <td>{{ atividade.data_inicio|date:"d/m/Y" }}</td>
+                    <td>{{ atividade.data_fim|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{{ atividade.url_edicao }}" class="btn-secondary" style="padding: 5px 10px; font-size: 0.9em;">Editar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">Nenhuma atividade encontrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'agenda/paginacao.html' with page_obj=atividades_paginadas %}
+
+{% endblock %}

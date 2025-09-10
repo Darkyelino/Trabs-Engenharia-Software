@@ -59,7 +59,6 @@ class EventoForm(forms.ModelForm):
             'aluno': 'Aluno (Opcional)',
         }
         widgets = {
-            # Use um widget amigável para data e hora
             'data': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
 

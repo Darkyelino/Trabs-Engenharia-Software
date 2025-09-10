@@ -24,5 +24,7 @@ urlpatterns = [
     path('perfil/', views.perfil_view, name='perfil'),
     path('perfil/editar/', views.editar_perfil_view, name='editar_perfil'),
 
+    path('historico/', views.historico_view, name='historico'),
+
     path('api/dados-dia/<int:ano>/<int:mes>/<int:dia>/', views.api_dados_dia_view, name='api_dados_dia'),
 ]

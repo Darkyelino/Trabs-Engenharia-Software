@@ -917,3 +917,46 @@ a {
     margin: 0 10px;
     color: #6c757d;
 }
+
+/* --- ESTILOS PARA A PÁGINA DE HISTÓRICO --- */
+.table-container {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.history-table th, .history-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-table thead th {
+    font-weight: bold;
+    color: var(--navy-blue);
+}
+
+.history-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges para os tipos de atividade */
+.badge {
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #ffffff;
+}
+.badge-pesquisa { background-color: #6f42c1; }
+.badge-ensino { background-color: #28a745; }
+.badge-extensão { background-color: #fd7e14; }
+.badge-administração { background-color: #17a2b8; }
