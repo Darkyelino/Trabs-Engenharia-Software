@@ -33,20 +33,81 @@
 <div class="activity-section">
     <h2>Atividades de Pesquisa</h2>
     {% for atividade in atividades_pesquisa %}
-        {% empty %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
+                <a href="{% url 'editar_atividade_pesquisa' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+    {% empty %}
         <p>Nenhuma atividade de pesquisa encontrada para o filtro selecionado.</p>
     {% endfor %}
-    
     {% include 'agenda/paginacao.html' with page_obj=atividades_pesquisa param_name='pesquisa_page' %}
 </div>
 
 <div class="activity-section">
     <h2>Atividades de Ensino</h2>
     {% for atividade in atividades_ensino %}
-        {% empty %}
+         <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
+                <a href="{% url 'editar_atividade_ensino' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+    {% empty %}
         <p>Nenhuma atividade de ensino encontrada para o filtro selecionado.</p>
     {% endfor %}
     {% include 'agenda/paginacao.html' with page_obj=atividades_ensino param_name='ensino_page' %}
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Extensão</h2>
+    {% for atividade in atividades_extensao %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
+                <a href="{% url 'editar_atividade_extensao' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Nenhuma atividade de extensão encontrada para o filtro selecionado.</p>
+    {% endfor %}
+    {% include 'agenda/paginacao.html' with page_obj=atividades_extensao param_name='extensao_page' %}
+</div>
+
+<div class="activity-section">
+    <h2>Atividades de Administração</h2>
+    {% for atividade in atividades_administracao %}
+        <div class="activity-card">
+            <div class="activity-card-header">
+                <h3>{{ atividade.titulo }}</h3>
+                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
+            </div>
+            <p>{{ atividade.descricao }}</p>
+            <div class="form-actions">
+                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
+                <a href="{% url 'editar_atividade_administracao' atividade.pk %}" class="btn-secondary">Editar</a>
+            </div>
+        </div>
+    {% empty %}
+        <p>Nenhuma atividade de administração encontrada para o filtro selecionado.</p>
+    {% endfor %}
+    {% include 'agenda/paginacao.html' with page_obj=atividades_administracao param_name='admin_page' %}
 </div>
 
 {% endblock %}

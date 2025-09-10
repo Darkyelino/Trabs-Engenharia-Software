@@ -1,7 +1,6 @@
 dj_database_url==3.0.1
 Django==5.1.7
 gunicorn
-dj-database-url
 psycopg2-binary
 whitenoise
 cloudinary

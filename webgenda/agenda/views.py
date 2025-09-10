@@ -511,6 +511,9 @@ def dashboard_view(request):
     
     filter_option = request.GET.get('filter', 'all_time')
     
+    start_date = None
+    end_date = None
+
     if filter_option == 'last_7_days':
         start_date = today - timedelta(days=7)
         end_date = today
