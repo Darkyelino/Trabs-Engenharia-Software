@@ -794,3 +794,51 @@ a {
 .quick-actions .btn-secondary {
     text-align: center;
 }
+
+/* --- ESTILOS PARA O DROPDOWN DE FILTRO --- */
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-button {
+    background-color: var(--white);
+    color: var(--text-color);
+    padding: 8px 15px;
+    font-size: 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.filter-button i {
+    margin-left: 10px;
+}
+
+.filter-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--white);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 5px;
+}
+
+.filter-menu a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.filter-menu a:hover {
+    background-color: #f1f1f1;
+}
+
+.filter-dropdown:hover .filter-menu {
+    display: block;
+}

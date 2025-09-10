@@ -9,6 +9,7 @@ import calendar
 from datetime import date, datetime, timedelta
 import locale
 import sys
+from dateutil.relativedelta import relativedelta
 
 MESES_PT_BR = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 DIAS_ABREVIADOS_PT_BR = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
@@ -495,11 +496,44 @@ def api_dados_dia_view(request, ano, mes, dia):
 @login_required
 def dashboard_view(request):
     docente_logado = request.user
+    today = timezone.now().date()
+    
+    filter_option = request.GET.get('filter', 'all_time')
+    
+    if filter_option == 'last_30_days':
+        start_date = today - timedelta(days=30)
+        end_date = today
+    elif filter_option == 'this_month':
+        start_date = today.replace(day=1)
+        end_date = today
+    elif filter_option == 'last_month':
+        last_month_end = today.replace(day=1) - timedelta(days=1)
+        start_date = last_month_end.replace(day=1)
+        end_date = last_month_end
+    else:
+        start_date = None
+        end_date = None
+    
+    eventos_query = Eventos.objects.filter(docente=docente_logado)
+    if start_date and end_date:
+        eventos_query = eventos_query.filter(data__range=[start_date, end_date])
+    eventos_count = eventos_query.count()
 
-    pesquisa_count = AtividadePesquisa.objects.filter(id_docente=docente_logado).count()
-    ensino_count = AtividadeEnsino.objects.filter(id_docente=docente_logado).count()
-    extensao_count = AtividadeExtensao.objects.filter(id_docente=docente_logado).count()
-    admin_count = AtividadeAdministracao.objects.filter(id_docente=docente_logado).count()
+    pesquisa_query = AtividadePesquisa.objects.filter(id_docente=docente_logado)
+    ensino_query = AtividadeEnsino.objects.filter(id_docente=docente_logado)
+    extensao_query = AtividadeExtensao.objects.filter(id_docente=docente_logado)
+    admin_query = AtividadeAdministracao.objects.filter(id_docente=docente_logado)
+
+    if start_date and end_date:
+        pesquisa_query = pesquisa_query.filter(data_inicio__range=[start_date, end_date])
+        ensino_query = ensino_query.filter(data_inicio__range=[start_date, end_date])
+        extensao_query = extensao_query.filter(data_inicio__range=[start_date, end_date])
+        admin_query = admin_query.filter(data_inicio__range=[start_date, end_date])
+
+    pesquisa_count = pesquisa_query.count()
+    ensino_count = ensino_query.count()
+    extensao_count = extensao_query.count()
+    admin_count = admin_query.count()
     total_count = pesquisa_count + ensino_count + extensao_count + admin_count
 
     proximos_eventos = Eventos.objects.filter(
@@ -509,11 +543,13 @@ def dashboard_view(request):
 
     contexto = {
         'active_page': 'dashboard',
+        'eventos_count': eventos_count,
         'total_count': total_count,
         'pesquisa_count': pesquisa_count,
         'ensino_count': ensino_count,
         'extensao_count': extensao_count,
         'admin_count': admin_count,
         'proximos_eventos': proximos_eventos,
+        'current_filter': filter_option,
     }
     return render(request, 'agenda/dashboard.html', contexto)
