@@ -605,7 +605,19 @@ def historico_view(request):
             'url_edicao': reverse('editar_atividade_administracao', args=[ativ.pk])
         })
     
-    todas_as_atividades.sort(key=itemgetter('data_inicio'), reverse=True)
+    sort_by = request.GET.get('sort', 'data_inicio')
+    direction = request.GET.get('direction', 'desc')
+
+    if direction not in ['asc', 'desc']:
+        direction = 'desc'
+
+    sort_key = sort_by
+    if sort_key == 'tipo':
+        sort_key = 'tipo_geral'
+    elif sort_key == 'categoria':
+        sort_key = 'categoria'
+
+    todas_as_atividades.sort(key=itemgetter(sort_key), reverse=(direction == 'desc'))
 
     paginator = Paginator(todas_as_atividades, 10)
     page_number = request.GET.get('page')
@@ -613,6 +625,8 @@ def historico_view(request):
 
     contexto = {
         'active_page': 'historico',
-        'atividades_paginadas': atividades_paginadas
+        'atividades_paginadas': atividades_paginadas,
+        'current_sort': sort_by,
+        'current_direction': direction,
     }
     return render(request, 'agenda/historico.html', contexto)

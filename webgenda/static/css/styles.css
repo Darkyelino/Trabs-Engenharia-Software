@@ -981,6 +981,22 @@ a {
     background-color: #f8f9fa;
 }
 
+/* Estilos para os cabeçalhos de tabela ordenáveis */
+.history-table thead th a {
+    color: inherit;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.history-table thead th a:hover {
+    color: var(--light-navy);
+}
+
+.history-table thead th a i {
+    margin-left: 8px;
+}
+
 /* Badges para os tipos de atividade */
 .badge {
     padding: 4px 8px;

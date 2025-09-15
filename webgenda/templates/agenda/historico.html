@@ -11,10 +11,30 @@
     <table class="history-table">
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Tipo</th>
-                <th>Categoria</th>
-                <th>Data de Início</th>
+                <th>
+                    <a href="?sort=titulo&direction={% if current_sort == 'titulo' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Título
+                        {% if current_sort == 'titulo' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort=tipo&direction={% if current_sort == 'tipo' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Tipo
+                        {% if current_sort == 'tipo' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort=categoria&direction={% if current_sort == 'categoria' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Categoria
+                        {% if current_sort == 'categoria' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?sort=data_inicio&direction={% if current_sort == 'data_inicio' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data de Início
+                        {% if current_sort == 'data_inicio' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
                 <th>Data de Fim</th>
                 <th>Ações</th>
             </tr>
