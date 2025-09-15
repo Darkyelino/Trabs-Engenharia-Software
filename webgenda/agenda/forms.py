@@ -14,6 +14,18 @@ class AtividadePesquisaForm(forms.ModelForm):
             'data_fim': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        data_inicio = cleaned_data.get("data_inicio")
+        data_fim = cleaned_data.get("data_fim")
+
+        if data_inicio and data_fim:
+            if data_fim < data_inicio:
+                raise forms.ValidationError(
+                    "A data de fim não pode ser anterior à data de início."
+                )
+        return cleaned_data
+
 class AtividadeEnsinoForm(forms.ModelForm):
     class Meta:
         model = AtividadeEnsino
@@ -25,6 +37,18 @@ class AtividadeEnsinoForm(forms.ModelForm):
             'data_inicio': forms.DateInput(attrs={'type': 'date'}),
             'data_fim': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        data_inicio = cleaned_data.get("data_inicio")
+        data_fim = cleaned_data.get("data_fim")
+
+        if data_inicio and data_fim:
+            if data_fim < data_inicio:
+                raise forms.ValidationError(
+                    "A data de fim não pode ser anterior à data de início."
+                )
+        return cleaned_data
 
 class AtividadeExtensaoForm(forms.ModelForm):
     class Meta:
@@ -38,6 +62,18 @@ class AtividadeExtensaoForm(forms.ModelForm):
             'data_fim': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        data_inicio = cleaned_data.get("data_inicio")
+        data_fim = cleaned_data.get("data_fim")
+
+        if data_inicio and data_fim:
+            if data_fim < data_inicio:
+                raise forms.ValidationError(
+                    "A data de fim não pode ser anterior à data de início."
+                )
+        return cleaned_data
+
 class AtividadeAdministracaoForm(forms.ModelForm):
     class Meta:
         model = AtividadeAdministracao
@@ -49,6 +85,18 @@ class AtividadeAdministracaoForm(forms.ModelForm):
             'data_inicio': forms.DateInput(attrs={'type': 'date'}),
             'data_fim': forms.DateInput(attrs={'type': 'date'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        data_inicio = cleaned_data.get("data_inicio")
+        data_fim = cleaned_data.get("data_fim")
+
+        if data_inicio and data_fim:
+            if data_fim < data_inicio:
+                raise forms.ValidationError(
+                    "A data de fim não pode ser anterior à data de início."
+                )
+        return cleaned_data
 
 class EventoForm(forms.ModelForm):
     class Meta:
