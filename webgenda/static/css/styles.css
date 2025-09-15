@@ -997,6 +997,54 @@ a {
     margin-left: 8px;
 }
 
+.history-table thead .th-with-filter {
+    position: relative;
+}
+
+.th-with-filter .th-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.th-with-filter .filter-icon {
+    cursor: pointer;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 4px;
+}
+.th-with-filter .filter-icon:hover {
+    background-color: #e9ecef;
+}
+
+.header-filter-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    min-width: 180px;
+}
+
+.header-filter-menu.show {
+    display: block;
+}
+
+.header-filter-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.header-filter-menu a:hover {
+    background-color: #f1f1f1;
+}
+
 /* Badges para os tipos de atividade */
 .badge {
     padding: 4px 8px;

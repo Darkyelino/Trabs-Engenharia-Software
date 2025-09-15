@@ -183,7 +183,7 @@ def atividades_view(request):
 
     selected_year = request.GET.get('year', 'all')
     items_per_page = int(request.GET.get('per_page', 5))
-    
+    selected_type = request.GET.get('tipo', 'all')
     sort_by = request.GET.get('sort', 'data_fim')
     direction = request.GET.get('direction', 'asc')
 
@@ -195,19 +195,17 @@ def atividades_view(request):
     }
 
     for tipo_geral, (model, url_name) in activity_models.items():
-        query = model.objects.filter(id_docente=docente_logado, data_fim__gte=today)
-        if selected_year != 'all':
-            query = query.filter(data_inicio__year=selected_year)
+        if selected_type == 'all' or selected_type == tipo_geral:
+            query = model.objects.filter(id_docente=docente_logado, data_fim__gte=today)
+            if selected_year != 'all':
+                query = query.filter(data_inicio__year=selected_year)
 
-        for ativ in query:
-            atividades_ativas.append({
-                'titulo': ativ.titulo,
-                'tipo_geral': tipo_geral,
-                'categoria': ativ.id_tipo.tipo,
-                'data_inicio': ativ.data_inicio,
-                'data_fim': ativ.data_fim,
-                'url_edicao': reverse(url_name, args=[ativ.pk])
-            })
+            for ativ in query:
+                atividades_ativas.append({
+                    'titulo': ativ.titulo, 'tipo_geral': tipo_geral, 'categoria': ativ.id_tipo.tipo,
+                    'data_inicio': ativ.data_inicio, 'data_fim': ativ.data_fim,
+                    'url_edicao': reverse(url_name, args=[ativ.pk])
+                })
     
     if direction not in ['asc', 'desc']:
         direction = 'asc'
@@ -230,6 +228,7 @@ def atividades_view(request):
         'items_per_page': items_per_page,
         'current_sort': sort_by,
         'current_direction': direction,
+        'selected_type': selected_type,
     }
 
     return render(request, 'agenda/atividades.html', contexto)
@@ -586,58 +585,33 @@ def dashboard_view(request):
 @login_required
 def historico_view(request):
     docente_logado = request.user
-    todas_as_atividades = []
-
-    for ativ in AtividadePesquisa.objects.filter(id_docente=docente_logado):
-        todas_as_atividades.append({
-            'titulo': ativ.titulo,
-            'tipo_geral': 'Pesquisa',
-            'categoria': ativ.id_tipo.tipo,
-            'data_inicio': ativ.data_inicio,
-            'data_fim': ativ.data_fim,
-            'url_edicao': reverse('editar_atividade_pesquisa', args=[ativ.pk])
-        })
-    for ativ in AtividadeEnsino.objects.filter(id_docente=docente_logado):
-        todas_as_atividades.append({
-            'titulo': ativ.titulo,
-            'tipo_geral': 'Ensino',
-            'categoria': ativ.id_tipo.tipo,
-            'data_inicio': ativ.data_inicio,
-            'data_fim': ativ.data_fim,
-            'url_edicao': reverse('editar_atividade_ensino', args=[ativ.pk])
-        })
-    for ativ in AtividadeExtensao.objects.filter(id_docente=docente_logado):
-        todas_as_atividades.append({
-            'titulo': ativ.titulo,
-            'tipo_geral': 'Extensão',
-            'categoria': ativ.id_tipo.tipo,
-            'data_inicio': ativ.data_inicio,
-            'data_fim': ativ.data_fim,
-            'url_edicao': reverse('editar_atividade_extensao', args=[ativ.pk])
-        })
-    for ativ in AtividadeAdministracao.objects.filter(id_docente=docente_logado):
-        todas_as_atividades.append({
-            'titulo': ativ.titulo,
-            'tipo_geral': 'Administração',
-            'categoria': ativ.id_tipo.tipo,
-            'data_inicio': ativ.data_inicio,
-            'data_fim': ativ.data_fim,
-            'url_edicao': reverse('editar_atividade_administracao', args=[ativ.pk])
-        })
-    
+    selected_type = request.GET.get('tipo', 'all')
     sort_by = request.GET.get('sort', 'data_inicio')
     direction = request.GET.get('direction', 'desc')
 
+    todas_as_atividades = []
+    
+    activity_models = {
+        'Pesquisa': (AtividadePesquisa, 'editar_atividade_pesquisa'),
+        'Ensino': (AtividadeEnsino, 'editar_atividade_ensino'),
+        'Extensão': (AtividadeExtensao, 'editar_atividade_extensao'),
+        'Administração': (AtividadeAdministracao, 'editar_atividade_administracao'),
+    }
+
+    for tipo_geral, (model, url_name) in activity_models.items():
+        if selected_type == 'all' or selected_type == tipo_geral:
+            query = model.objects.filter(id_docente=docente_logado)
+            for ativ in query:
+                todas_as_atividades.append({
+                    'titulo': ativ.titulo, 'tipo_geral': tipo_geral, 'categoria': ativ.id_tipo.tipo,
+                    'data_inicio': ativ.data_inicio, 'data_fim': ativ.data_fim,
+                    'url_edicao': reverse(url_name, args=[ativ.pk])
+                })
+    
     if direction not in ['asc', 'desc']:
         direction = 'desc'
-
-    sort_key = sort_by
-    if sort_key == 'tipo':
-        sort_key = 'tipo_geral'
-    elif sort_key == 'categoria':
-        sort_key = 'categoria'
-
-    todas_as_atividades.sort(key=itemgetter(sort_key), reverse=(direction == 'desc'))
+    
+    todas_as_atividades.sort(key=itemgetter(sort_by), reverse=(direction == 'desc'))
 
     paginator = Paginator(todas_as_atividades, 10)
     page_number = request.GET.get('page')
@@ -648,5 +622,6 @@ def historico_view(request):
         'atividades_paginadas': atividades_paginadas,
         'current_sort': sort_by,
         'current_direction': direction,
+        'selected_type': selected_type,
     }
     return render(request, 'agenda/historico.html', contexto)

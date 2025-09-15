@@ -181,3 +181,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+// --- LÓGICA PARA O FILTRO NO CABEÇALHO DA TABELA ---
+document.addEventListener('DOMContentLoaded', function () {
+    const filterIcon = document.querySelector('.th-with-filter .filter-icon');
+
+    if (filterIcon) {
+        const filterMenu = filterIcon.closest('.th-with-filter').querySelector('.header-filter-menu');
+
+        filterIcon.addEventListener('click', function (event) {
+            event.stopPropagation();
+            filterMenu.classList.toggle('show');
+        });
+
+        window.addEventListener('click', function () {
+            if (filterMenu.classList.contains('show')) {
+                filterMenu.classList.remove('show');
+            }
+        });
+    }
+});

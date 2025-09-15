@@ -18,11 +18,21 @@
                         {% if current_sort == 'titulo' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
                     </a>
                 </th>
-                <th>
-                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=tipo_geral&direction={% if current_sort == 'tipo_geral' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
-                        Tipo
-                        {% if current_sort == 'tipo_geral' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
-                    </a>
+                <th class="th-with-filter">
+                    <div class="th-content">
+                        <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&tipo={{ selected_type }}&sort=tipo_geral&direction={% if current_sort == 'tipo_geral' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                            Tipo
+                            {% if current_sort == 'tipo_geral' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                        </a>
+                        <i class="bi bi-funnel-fill filter-icon"></i>
+                    </div>
+                    <div class="header-filter-menu">
+                        <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort={{ current_sort }}&direction={{ current_direction }}">Todos os Tipos</a>
+                        <a href="?tipo=Pesquisa&year={{ selected_year }}&per_page={{ items_per_page }}&sort={{ current_sort }}&direction={{ current_direction }}">Pesquisa</a>
+                        <a href="?tipo=Ensino&year={{ selected_year }}&per_page={{ items_per_page }}&sort={{ current_sort }}&direction={{ current_direction }}">Ensino</a>
+                        <a href="?tipo=Extensão&year={{ selected_year }}&per_page={{ items_per_page }}&sort={{ current_sort }}&direction={{ current_direction }}">Extensão</a>
+                        <a href="?tipo=Administração&year={{ selected_year }}&per_page={{ items_per_page }}&sort={{ current_sort }}&direction={{ current_direction }}">Administração</a>
+                    </div>
                 </th>
                 <th>
                     <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=categoria&direction={% if current_sort == 'categoria' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
