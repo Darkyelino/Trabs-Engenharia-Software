@@ -178,38 +178,57 @@ def agenda_view(request):
 def atividades_view(request):
     docente_logado = request.user
 
+    today = timezone.now().date()
+    atividades_ativas = []
+
     selected_year = request.GET.get('year', 'all')
     items_per_page = int(request.GET.get('per_page', 5))
+    
+    sort_by = request.GET.get('sort', 'data_fim')
+    direction = request.GET.get('direction', 'asc')
 
-    # Lógica de Paginação para cada tipo de atividade
-    def paginate_queryset(model, page_number_param):
-        query = model.objects.filter(id_docente=docente_logado).order_by('-data_inicio')
+    activity_models = {
+        'Pesquisa': (AtividadePesquisa, 'editar_atividade_pesquisa'),
+        'Ensino': (AtividadeEnsino, 'editar_atividade_ensino'),
+        'Extensão': (AtividadeExtensao, 'editar_atividade_extensao'),
+        'Administração': (AtividadeAdministracao, 'editar_atividade_administracao'),
+    }
+
+    for tipo_geral, (model, url_name) in activity_models.items():
+        query = model.objects.filter(id_docente=docente_logado, data_fim__gte=today)
         if selected_year != 'all':
             query = query.filter(data_inicio__year=selected_year)
-        
-        paginator = Paginator(query, items_per_page)
-        page_number = request.GET.get(page_number_param, 1)
-        return paginator.get_page(page_number)
 
-    atividades_pesquisa_page = paginate_queryset(AtividadePesquisa, 'pesquisa_page')
-    atividades_ensino_page = paginate_queryset(AtividadeEnsino, 'ensino_page')
-    atividades_extensao_page = paginate_queryset(AtividadeExtensao, 'extensao_page')
-    atividades_administracao_page = paginate_queryset(AtividadeAdministracao, 'admin_page')
+        for ativ in query:
+            atividades_ativas.append({
+                'titulo': ativ.titulo,
+                'tipo_geral': tipo_geral,
+                'categoria': ativ.id_tipo.tipo,
+                'data_inicio': ativ.data_inicio,
+                'data_fim': ativ.data_fim,
+                'url_edicao': reverse(url_name, args=[ativ.pk])
+            })
     
-    # Pega todos os anos em que há atividades para popular o filtro
+    if direction not in ['asc', 'desc']:
+        direction = 'asc'
+        atividades_ativas.sort(key=itemgetter(sort_by), reverse=(direction == 'desc'))
+
+    paginator = Paginator(atividades_ativas, 10)
+    page_number = request.GET.get('page')
+    atividades_paginadas = paginator.get_page(page_number)
+
     years = set()
     for model in [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]:
         years.update(model.objects.filter(id_docente=docente_logado).values_list('data_inicio__year', flat=True))
-
+    
     contexto = {
         'active_page': 'atividades',
-        'atividades_pesquisa': atividades_pesquisa_page,
-        'atividades_ensino': atividades_ensino_page,
-        'atividades_extensao': atividades_extensao_page,
-        'atividades_administracao': atividades_administracao_page,
+        'atividades_paginadas': atividades_paginadas,
         'available_years': sorted(list(filter(None, years)), reverse=True),
         'selected_year': selected_year,
         'items_per_page': items_per_page,
+        'current_sort': sort_by,
+        'current_direction': direction,
     }
 
     return render(request, 'agenda/atividades.html', contexto)

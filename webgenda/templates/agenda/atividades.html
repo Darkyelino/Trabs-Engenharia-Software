@@ -8,106 +8,64 @@
     <a href="{% url 'cadastrar_atividade' %}" class="btn-primary">Cadastrar Nova Atividade</a>
 </div>
 
-<div class="filter-bar">
-    <form method="get" class="filter-form">
-        <div class="filter-group">
-            <label for="year">Filtrar por Ano:</label>
-            <select name="year" id="year" onchange="this.form.submit()">
-                <option value="all" {% if selected_year == 'all' %}selected{% endif %}>Todos os Anos</option>
-                {% for year in available_years %}
-                    <option value="{{ year }}" {% if selected_year == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="per_page">Itens por Página:</label>
-            <select name="per_page" id="per_page" onchange="this.form.submit()">
-                <option value="3" {% if items_per_page == 3 %}selected{% endif %}>3</option>
-                <option value="5" {% if items_per_page == 5 %}selected{% endif %}>5</option>
-                <option value="10" {% if items_per_page == 10 %}selected{% endif %}>10</option>
-            </select>
-        </div>
-    </form>
+<div class="table-container">
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>
+                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=titulo&direction={% if current_sort == 'titulo' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Título
+                        {% if current_sort == 'titulo' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=tipo_geral&direction={% if current_sort == 'tipo_geral' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Tipo
+                        {% if current_sort == 'tipo_geral' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=categoria&direction={% if current_sort == 'categoria' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Categoria
+                        {% if current_sort == 'categoria' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=data_inicio&direction={% if current_sort == 'data_inicio' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data de Início
+                        {% if current_sort == 'data_inicio' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    <a href="?year={{ selected_year }}&per_page={{ items_per_page }}&sort=data_fim&direction={% if current_sort == 'data_fim' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data de Fim
+                        {% if current_sort == 'data_fim' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atividade in atividades_paginadas %}
+                <tr>
+                    <td>{{ atividade.titulo }}</td>
+                    <td><span class="badge badge-{{ atividade.tipo_geral|lower }}">{{ atividade.tipo_geral }}</span></td>
+                    <td>{{ atividade.categoria }}</td>
+                    <td>{{ atividade.data_inicio|date:"d/m/Y" }}</td>
+                    <td>{{ atividade.data_fim|date:"d/m/Y" }}</td>
+                    <td>
+                        <a href="{{ atividade.url_edicao }}" class="btn-secondary" style="padding: 5px 10px; font-size: 0.9em;">Editar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">Nenhuma atividade em andamento ou futura encontrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
-<div class="activity-section">
-    <h2>Atividades de Pesquisa</h2>
-    {% for atividade in atividades_pesquisa %}
-        <div class="activity-card">
-            <div class="activity-card-header">
-                <h3>{{ atividade.titulo }}</h3>
-                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
-            </div>
-            <p>{{ atividade.descricao }}</p>
-            <div class="form-actions">
-                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
-                <a href="{% url 'editar_atividade_pesquisa' atividade.pk %}" class="btn-secondary">Editar</a>
-            </div>
-        </div>
-    {% empty %}
-        <p>Nenhuma atividade de pesquisa encontrada para o filtro selecionado.</p>
-    {% endfor %}
-    {% include 'agenda/paginacao.html' with page_obj=atividades_pesquisa param_name='pesquisa_page' %}
-</div>
-
-<div class="activity-section">
-    <h2>Atividades de Ensino</h2>
-    {% for atividade in atividades_ensino %}
-         <div class="activity-card">
-            <div class="activity-card-header">
-                <h3>{{ atividade.titulo }}</h3>
-                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
-            </div>
-            <p>{{ atividade.descricao }}</p>
-            <div class="form-actions">
-                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
-                <a href="{% url 'editar_atividade_ensino' atividade.pk %}" class="btn-secondary">Editar</a>
-            </div>
-        </div>
-    {% empty %}
-        <p>Nenhuma atividade de ensino encontrada para o filtro selecionado.</p>
-    {% endfor %}
-    {% include 'agenda/paginacao.html' with page_obj=atividades_ensino param_name='ensino_page' %}
-</div>
-
-<div class="activity-section">
-    <h2>Atividades de Extensão</h2>
-    {% for atividade in atividades_extensao %}
-        <div class="activity-card">
-            <div class="activity-card-header">
-                <h3>{{ atividade.titulo }}</h3>
-                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
-            </div>
-            <p>{{ atividade.descricao }}</p>
-            <div class="form-actions">
-                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
-                <a href="{% url 'editar_atividade_extensao' atividade.pk %}" class="btn-secondary">Editar</a>
-            </div>
-        </div>
-    {% empty %}
-        <p>Nenhuma atividade de extensão encontrada para o filtro selecionado.</p>
-    {% endfor %}
-    {% include 'agenda/paginacao.html' with page_obj=atividades_extensao param_name='extensao_page' %}
-</div>
-
-<div class="activity-section">
-    <h2>Atividades de Administração</h2>
-    {% for atividade in atividades_administracao %}
-        <div class="activity-card">
-            <div class="activity-card-header">
-                <h3>{{ atividade.titulo }}</h3>
-                <span>{{ atividade.data_inicio|date:"d/m/Y" }} - {{ atividade.data_fim|date:"d/m/Y" }}</span>
-            </div>
-            <p>{{ atividade.descricao }}</p>
-            <div class="form-actions">
-                {% if atividade.comprovante %}<a href="{{ atividade.comprovante.url }}" class="btn-secondary" target="_blank">Ver Comprovante</a>{% endif %}
-                <a href="{% url 'editar_atividade_administracao' atividade.pk %}" class="btn-secondary">Editar</a>
-            </div>
-        </div>
-    {% empty %}
-        <p>Nenhuma atividade de administração encontrada para o filtro selecionado.</p>
-    {% endfor %}
-    {% include 'agenda/paginacao.html' with page_obj=atividades_administracao param_name='admin_page' %}
-</div>
+{% include 'agenda/paginacao.html' with page_obj=atividades_paginadas %}
 
 {% endblock %}
