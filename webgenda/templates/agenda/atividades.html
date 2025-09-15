@@ -76,10 +76,6 @@
     </table>
 </div>
 
-{% if user.is_authenticated %}
-<script src="{% static 'js/script.js' %}"></script>
-{% endif %}
-
 {% include 'agenda/paginacao.html' with page_obj=atividades_paginadas %}
 
 {% endblock %}
