@@ -211,9 +211,10 @@ def atividades_view(request):
     
     if direction not in ['asc', 'desc']:
         direction = 'asc'
-        atividades_ativas.sort(key=itemgetter(sort_by), reverse=(direction == 'desc'))
 
-    paginator = Paginator(atividades_ativas, 10)
+    atividades_ativas.sort(key=itemgetter(sort_by), reverse=(direction == 'desc'))
+    
+    paginator = Paginator(atividades_ativas, items_per_page)
     page_number = request.GET.get('page')
     atividades_paginadas = paginator.get_page(page_number)
 

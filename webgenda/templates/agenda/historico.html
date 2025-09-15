@@ -35,7 +35,12 @@
                         {% if current_sort == 'data_inicio' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
                     </a>
                 </th>
-                <th>Data de Fim</th>
+                <th>
+                    <a href="?sort=data_fim&direction={% if current_sort == 'data_fim' and current_direction == 'asc' %}desc{% else %}asc{% endif %}">
+                        Data de Fim
+                        {% if current_sort == 'data_fim' %}<i class="bi bi-arrow-{% if current_direction == 'asc' %}up{% else %}down{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
                 <th>Ações</th>
             </tr>
         </thead>
