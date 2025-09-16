@@ -657,19 +657,24 @@ def dashboard_view(request):
     eventos_count = eventos_query.count()
 
     activity_models = {
-        'Pesquisa': AtividadePesquisa, 'Ensino': AtividadeEnsino,
-        'Extensão': AtividadeExtensao, 'Administração': AtividadeAdministracao,
+        'Pesquisa': AtividadePesquisa,
+        'Ensino': AtividadeEnsino,
+        'Extensão': AtividadeExtensao,
+        'Administração': AtividadeAdministracao,
     }
-    activity_counts = {}
+
+    pesquisa_count = AtividadePesquisa.objects.filter(id_docente=docente_logado).count()
+    ensino_count = AtividadeEnsino.objects.filter(id_docente=docente_logado).count()
+    extensao_count = AtividadeExtensao.objects.filter(id_docente=docente_logado).count()
+    admin_count = AtividadeAdministracao.objects.filter(id_docente=docente_logado).count()
+    
     total_activities_count = 0
 
-    for name, model in activity_models.items():
+    for model in activity_models.values():
         query = model.objects.filter(id_docente=docente_logado)
         if start_date and end_date:
             query = query.filter(data_inicio__range=[start_date, end_date])
-        count = query.count()
-        activity_counts[name] = count
-        total_activities_count += count
+        total_activities_count += query.count()
 
     todas_as_atividades = []
     for model in activity_models.values():
@@ -683,8 +688,8 @@ def dashboard_view(request):
     ).order_by('data')[:5]
 
     chart_data = {
-        'labels': list(activity_counts.keys()),
-        'data': list(activity_counts.values()),
+        'labels': ['Pesquisa', 'Ensino', 'Extensão', 'Administração'],
+        'data': [pesquisa_count, ensino_count, extensao_count, admin_count],
     }
 
     contexto = {
