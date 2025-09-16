@@ -623,15 +623,16 @@ a {
 }
 
 /* --- ESTILOS PARA O CAMPO DE ARQUIVO (COMPROVANTE) --- */
+
 .comprovante-atual {
     font-size: 0.9em;
     color: #6c757d;
+    margin-bottom: 10px;
 }
 
 .comprovante-atual a {
     color: var(--navy-blue);
     font-weight: bold;
-    text-decoration: underline;
 }
 
 .comprovante-atual .clear-checkbox {

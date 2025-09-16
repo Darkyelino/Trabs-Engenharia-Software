@@ -184,8 +184,12 @@ def atividades_view(request):
 
             for ativ in query:
                 atividades_ativas.append({
-                    'titulo': ativ.titulo, 'tipo_geral': tipo_geral, 'categoria': ativ.id_tipo.tipo,
-                    'data_inicio': ativ.data_inicio, 'data_fim': ativ.data_fim,
+                    'titulo': ativ.titulo,
+                    'tipo_geral': tipo_geral,
+                    'categoria': ativ.id_tipo.tipo,
+                    'data_inicio': ativ.data_inicio,
+                    'data_fim': ativ.data_fim,
+                    'url_comprovante': ativ.comprovante.url if ativ.comprovante else None,
                     'url_edicao': reverse(url_name, args=[ativ.pk])
                 })
     
@@ -592,8 +596,12 @@ def historico_view(request):
             query = model.objects.filter(id_docente=docente_logado)
             for ativ in query:
                 todas_as_atividades.append({
-                    'titulo': ativ.titulo, 'tipo_geral': tipo_geral, 'categoria': ativ.id_tipo.tipo,
-                    'data_inicio': ativ.data_inicio, 'data_fim': ativ.data_fim,
+                    'titulo': ativ.titulo,
+                    'tipo_geral': tipo_geral,
+                    'categoria': ativ.id_tipo.tipo,
+                    'data_inicio': ativ.data_inicio,
+                    'data_fim': ativ.data_fim,
+                    'url_comprovante': ativ.comprovante.url if ativ.comprovante else None,
                     'url_edicao': reverse(url_name, args=[ativ.pk])
                 })
     
