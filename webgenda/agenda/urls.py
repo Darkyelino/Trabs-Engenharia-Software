@@ -21,7 +21,7 @@ urlpatterns = [
     path('eventos/', views.eventos_list_view, name='eventos_lista'),
     path('eventos/cadastrar/', views.cadastrar_evento_geral_view, name='cadastrar_evento_geral'),
     path('eventos/cadastrar/<int:ano>/<int:mes>/<int:dia>/', views.cadastrar_evento_view, name='cadastrar_evento'),
-    path('eventos/editar/<int:id_evento>/', views.editar_evento_view, name='cadastrar_evento_geral'),
+    path('eventos/editar/<int:id_evento>/', views.editar_evento_view, name='editar_evento'),
     path('eventos/excluir/<int:id_evento>/', views.excluir_evento_view, name='excluir_evento'),
 
     path('perfil/', views.perfil_view, name='perfil'),
