@@ -64,6 +64,9 @@
                     <td>{{ atividade.data_inicio|date:"d/m/Y" }}</td>
                     <td>{{ atividade.data_fim|date:"d/m/Y" }}</td>
                     <td>
+                        {% if atividade.url_comprovante %}
+                            <a href="{{ atividade.url_comprovante }}" class="btn-primary" target="_blank" style="padding: 5px 10px; font-size: 0.9em;">Ver</a>
+                        {% endif %}
                         <a href="{{ atividade.url_edicao }}" class="btn-secondary" style="padding: 5px 10px; font-size: 0.9em;">Editar</a>
                     </td>
                 </tr>

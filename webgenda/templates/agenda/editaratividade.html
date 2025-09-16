@@ -20,22 +20,17 @@
                         <div class="comprovante-atual">
                             <span>Arquivo atual:</span>
                             <a href="{{ field.value.url }}" target="_blank">{{ field.value.name|truncatechars:30 }}</a>
-                            <br>
-                            <span class="clear-checkbox">
-                                {{ field }} </span>
                         </div>
-                    {% else %}
-                        {{ field }} {% endif %}
-                {% else %}
+                    {% endif %}
+                    {{ field }} {% else %}
                     {{ field }}
                 {% endif %}
                 
-                {% if field.help_text %}
-                    <p class="form-help-text">{{ field.help_text|safe }}</p>
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
                 {% endif %}
-                {% for error in field.errors %}
-                    <p class="form-error">{{ error }}</p>
-                {% endfor %}
             </div>
         {% endfor %}
 
