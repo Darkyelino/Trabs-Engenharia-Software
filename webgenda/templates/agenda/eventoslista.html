@@ -16,19 +16,19 @@
                 <th>
                     <a href="?sort={% if current_sort == 'titulo' %}-titulo{% else %}titulo{% endif %}">
                         Título
-                        {% if 'titulo' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                        {% if 'titulo' in current_sort %}<i class="bi bi-arrow-{% if current_sort == '-titulo' %}down{% else %}up{% endif %}"></i>{% endif %}
                     </a>
                 </th>
                 <th>
                     <a href="?sort={% if current_sort == 'data' %}-data{% else %}data{% endif %}">
                         Data e Hora
-                        {% if 'data' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                        {% if 'data' in current_sort %}<i class="bi bi-arrow-{% if current_sort == '-data' %}down{% else %}up{% endif %}"></i>{% endif %}
                     </a>
                 </th>
                 <th>
                     <a href="?sort={% if current_sort == 'atividade_relacionada__titulo' %}-atividade_relacionada__titulo{% else %}atividade_relacionada__titulo{% endif %}">
                         Atividade Relacionada
-                        {% if 'atividade_relacionada' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                        {% if 'atividade_relacionada' in current_sort %}<i class="bi bi-arrow-{% if current_sort == '-atividade_relacionada__titulo' %}down{% else %}up{% endif %}"></i>{% endif %}
                     </a>
                 </th>
                 <th>Descrição</th>
