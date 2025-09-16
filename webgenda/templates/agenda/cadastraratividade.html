@@ -18,10 +18,11 @@
     <div id="Pesquisa" class="tab-content" style="display: block;">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-errors">{{ form_pesquisa.non_field_errors }}</div>
             <input type="hidden" name="form_type" value="pesquisa">
             {{ form_pesquisa.as_p }}
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Salvar Atividade de Administração</button>
+                <button type="submit" class="btn-primary">Salvar Atividade de Pesquisa</button>
                 <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
@@ -30,10 +31,11 @@
     <div id="Ensino" class="tab-content">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-errors">{{ form_ensino.non_field_errors }}</div>
             <input type="hidden" name="form_type" value="ensino">
             {{ form_ensino.as_p }}
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Salvar Atividade de Administração</button>
+                <button type="submit" class="btn-primary">Salvar Atividade de Ensino</button>
                 <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
@@ -42,10 +44,11 @@
     <div id="Extensao" class="tab-content">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-errors">{{ form_extensao.non_field_errors }}</div>
             <input type="hidden" name="form_type" value="extensao">
             {{ form_extensao.as_p }}
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Salvar Atividade de Administração</button>
+                <button type="submit" class="btn btn-primary">Salvar Atividade de Extensão</button>
                 <a href="{% url 'atividades' %}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
@@ -54,6 +57,7 @@
     <div id="Administracao" class="tab-content">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-errors">{{ form_administracao.non_field_errors }}</div>
             <input type="hidden" name="form_type" value="administracao">
             {{ form_administracao.as_p }}
             <div class="form-actions">

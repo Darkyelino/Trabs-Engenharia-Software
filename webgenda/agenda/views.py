@@ -82,36 +82,24 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
 @login_required
 def agenda_view(request):
     docente_logado = request.user
-
-    if sys.platform.startswith('win'):
-        locale_str = 'ptb'
-    else:
-        locale_str = 'pt_BR.UTF-8'
-    try:
-        locale.setlocale(locale.LC_TIME, locale_str)
-    except locale.Error:
-        locale.setlocale(locale.LC_TIME, '')
+    docente_logado = request.user
 
     try:
         year = int(request.GET.get('year', datetime.now().year))
         month = int(request.GET.get('month', datetime.now().month))
     except (ValueError, TypeError):
         today = datetime.now()
-        year = today.year
-        month = today.month
+        year, month = today.year, today.month
 
-    prev_month = month - 1
-    prev_year = year
-    if prev_month == 0:
-        prev_month = 12
-        prev_year = year - 1
+    prev_month, prev_year = (month - 1, year) if month > 1 else (12, year - 1)
+    next_month, next_year = (month + 1, year) if month < 12 else (1, year + 1)
+    
+    current_year_for_range = datetime.now().year
+    year_range = range(current_year_for_range - 5, current_year_for_range + 6)
 
-    next_month = month + 1
-    next_year = year
-    if next_month == 13:
-        next_month = 1
-        next_year = year + 1
-
+    primeiro_dia_mes = date(year, month, 1)
+    ultimo_dia_mes = primeiro_dia_mes + relativedelta(months=1) - timedelta(days=1)
+    
     dias_marcados = {}
 
     eventos = Eventos.objects.filter(data__year=year, data__month=month, docente=docente_logado)
@@ -119,9 +107,6 @@ def agenda_view(request):
         dia = evento.data.day
         if dia not in dias_marcados: dias_marcados[dia] = set()
         dias_marcados[dia].add(('evento', None))
-
-    current_year = datetime.now().year
-    year_range = range(current_year - 5, current_year + 6)
 
     modelos_map = {
         'pesquisa': AtividadePesquisa,
@@ -133,30 +118,27 @@ def agenda_view(request):
     for tipo_str, modelo in modelos_map.items():
         atividades = modelo.objects.filter(
             id_docente=docente_logado,
-            data_inicio__year__lte=year,
-            data_fim__year__gte=year
-        ).filter(
-            data_inicio__month__lte=month,
-            data_fim__month__gte=month
+            data_inicio__lte=ultimo_dia_mes,
+            data_fim__gte=primeiro_dia_mes
         )
         
         for atividade in atividades:
-            delta = atividade.data_fim - atividade.data_inicio
-            for i in range(delta.days + 1):
-                dia_atual = atividade.data_inicio + timedelta(days=i)
+            dia_atual = atividade.data_inicio
+            while dia_atual <= atividade.data_fim:
                 if dia_atual.year == year and dia_atual.month == month:
                     dia = dia_atual.day
                     if dia not in dias_marcados: dias_marcados[dia] = set()
-
+                    
                     posicao = 'middle'
-                    if i == 0: posicao = 'start'
-                    if i == delta.days: posicao = 'end'
-                    if delta.days == 0: posicao = 'single'
+                    if dia_atual == atividade.data_inicio: posicao = 'start'
+                    if dia_atual == atividade.data_fim: posicao = 'end'
+                    if atividade.data_inicio == atividade.data_fim: posicao = 'single'
 
                     dias_marcados[dia].add((tipo_str, posicao))
+                
+                dia_atual += timedelta(days=1)
 
     cal = SafeHTMLCalendar(eventos_e_atividades=dias_marcados)
-    
     html_calendar = cal.formatmonth(year, month)
     month_name = MESES_PT_BR[month - 1]
 
@@ -237,49 +219,49 @@ def atividades_view(request):
 def cadastrar_atividade_view(request):
     docente_logado = request.user
 
+    form_pesquisa = AtividadePesquisaForm()
+    form_ensino = AtividadeEnsinoForm()
+    form_extensao = AtividadeExtensaoForm()
+    form_administracao = AtividadeAdministracaoForm()
+
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
-
+        
         if form_type == 'pesquisa':
-            form = AtividadePesquisaForm(request.POST, request.FILES)
-            if form.is_valid():
-                nova_atividade = form.save(commit=False)
+            form_pesquisa = AtividadePesquisaForm(request.POST, request.FILES)
+            if form_pesquisa.is_valid():
+                nova_atividade = form_pesquisa.save(commit=False)
                 nova_atividade.id_docente = docente_logado
                 nova_atividade.save()
                 messages.success(request, 'Atividade de Pesquisa cadastrada com sucesso!')
                 return redirect('atividades')
 
         elif form_type == 'ensino':
-            form = AtividadeEnsinoForm(request.POST, request.FILES)
-            if form.is_valid():
-                nova_atividade = form.save(commit=False)
+            form_ensino = AtividadeEnsinoForm(request.POST, request.FILES)
+            if form_ensino.is_valid():
+                nova_atividade = form_ensino.save(commit=False)
                 nova_atividade.id_docente = docente_logado
                 nova_atividade.save()
                 messages.success(request, 'Atividade de Ensino cadastrada com sucesso!')
                 return redirect('atividades')
         
         elif form_type == 'extensao':
-            form = AtividadeExtensaoForm(request.POST, request.FILES)
-            if form.is_valid():
-                nova_atividade = form.save(commit=False)
+            form_extensao = AtividadeExtensaoForm(request.POST, request.FILES)
+            if form_extensao.is_valid():
+                nova_atividade = form_extensao.save(commit=False)
                 nova_atividade.id_docente = docente_logado
                 nova_atividade.save()
                 messages.success(request, 'Atividade de Extensão cadastrada com sucesso!')
                 return redirect('atividades')
             
         elif form_type == 'administracao':
-            form = AtividadeAdministracaoForm(request.POST, request.FILES)
-            if form.is_valid():
-                nova_atividade = form.save(commit=False)
+            form_administracao = AtividadeAdministracaoForm(request.POST, request.FILES)
+            if form_administracao.is_valid():
+                nova_atividade = form_administracao.save(commit=False)
                 nova_atividade.id_docente = docente_logado
                 nova_atividade.save()
                 messages.success(request, 'Atividade de Administração cadastrada com sucesso!')
                 return redirect('atividades')
-
-    form_pesquisa = AtividadePesquisaForm()
-    form_ensino = AtividadeEnsinoForm()
-    form_extensao = AtividadeExtensaoForm()
-    form_administracao = AtividadeAdministracaoForm()
 
     contexto = {
         'active_page': 'atividades',
