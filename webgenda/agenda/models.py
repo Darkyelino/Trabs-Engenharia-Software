@@ -46,6 +46,9 @@ class AtividadePesquisa(models.Model):
     comprovante = models.FileField(upload_to='comprovantes/', null=True, blank=True)
     id_tipo = models.ForeignKey('TipoPesquisa', on_delete=models.CASCADE, related_name='atividades_pesquisa')
 
+    def __str__(self):
+        return self.titulo
+
 class TipoEnsino(models.Model):
     id_tipoatividade = models.AutoField(primary_key=True)
     tipo = models.CharField(max_length=255)
@@ -62,6 +65,9 @@ class AtividadeEnsino(models.Model):
     data_inicio = models.DateField()
     data_fim = models.DateField()
     id_tipo = models.ForeignKey(TipoEnsino, on_delete=models.CASCADE, related_name='atividades_ensino')
+
+    def __str__(self):
+        return self.titulo
 
 class TipoExtensao(models.Model):
     id_tipoatividade = models.AutoField(primary_key=True)
@@ -80,6 +86,9 @@ class AtividadeExtensao(models.Model):
     data_fim = models.DateField()
     id_tipo = models.ForeignKey(TipoExtensao, on_delete=models.CASCADE, related_name='atividades_extensao')
 
+    def __str__(self):
+        return self.titulo
+
 class TipoAdministracao(models.Model):
     id_tipoatividade = models.AutoField(primary_key=True)
     tipo = models.CharField(max_length=255)
@@ -96,3 +105,6 @@ class AtividadeAdministracao(models.Model):
     data_inicio = models.DateField()
     data_fim = models.DateField()
     id_tipo = models.ForeignKey(TipoAdministracao, on_delete=models.CASCADE, related_name='atividades_administracao')
+
+    def __str__(self):
+        return self.titulo
