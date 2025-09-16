@@ -14,31 +14,22 @@
         <thead>
             <tr>
                 <th>
-                    {% with new_direction='titulo' %}
-                        {% if current_sort == 'titulo' %}{% with new_direction='-titulo' %}{% endwith %}{% endif %}
-                        <a href="?sort={{ new_direction }}">
-                            Título
-                            {% if 'titulo' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
-                        </a>
-                    {% endwith %}
+                    <a href="?sort={% if current_sort == 'titulo' %}-titulo{% else %}titulo{% endif %}">
+                        Título
+                        {% if 'titulo' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
                 </th>
                 <th>
-                    {% with new_direction='data' %}
-                        {% if current_sort == 'data' %}{% with new_direction='-data' %}{% endwith %}{% endif %}
-                        <a href="?sort={{ new_direction }}">
-                            Data e Hora
-                            {% if 'data' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
-                        </a>
-                    {% endwith %}
+                    <a href="?sort={% if current_sort == 'data' %}-data{% else %}data{% endif %}">
+                        Data e Hora
+                        {% if 'data' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
                 </th>
                 <th>
-                    {% with new_direction='atividade_relacionada__titulo' %}
-                        {% if current_sort == 'atividade_relacionada__titulo' %}{% with new_direction='-atividade_relacionada__titulo' %}{% endwith %}{% endif %}
-                        <a href="?sort={{ new_direction }}">
-                            Atividade Relacionada
-                            {% if 'atividade_relacionada' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
-                        </a>
-                    {% endwith %}
+                    <a href="?sort={% if current_sort == 'atividade_relacionada__titulo' %}-atividade_relacionada__titulo{% else %}atividade_relacionada__titulo{% endif %}">
+                        Atividade Relacionada
+                        {% if 'atividade_relacionada' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
                 </th>
                 <th>Descrição</th>
                 <th>Ações</th>
