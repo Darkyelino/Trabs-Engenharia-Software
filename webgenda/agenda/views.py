@@ -502,7 +502,9 @@ def api_dados_dia_view(request, ano, mes, dia):
         'atividades': []
     }
 
-    eventos = Eventos.objects.filter(data__date=data_selecionada)
+    docente_logado = request.user
+
+    eventos = Eventos.objects.filter(data__date=data_selecionada, docente=docente_logado)
     for evento in eventos:
         dados['eventos'].append({
             'id': evento.id_evento,
@@ -512,13 +514,22 @@ def api_dados_dia_view(request, ano, mes, dia):
             'hora': evento.data.strftime('%H:%M')
         })
 
-    modelos_de_atividade = [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]
-    for modelo in modelos_de_atividade:
-        atividades = modelo.objects.filter(data_inicio__lte=data_selecionada, data_fim__gte=data_selecionada)
+    modelos_map = {
+        'Pesquisa': AtividadePesquisa,
+        'Ensino': AtividadeEnsino,
+        'Extensão': AtividadeExtensao,
+        'Administração': AtividadeAdministracao,
+    }
+    for tipo_str, modelo in modelos_map.items():
+        atividades = modelo.objects.filter(
+            id_docente=docente_logado,
+            data_inicio__lte=data_selecionada,
+            data_fim__gte=data_selecionada
+        )
         for atividade in atividades:
             dados['atividades'].append({
                 'titulo': atividade.titulo,
-                'tipo': modelo._meta.verbose_name.title()
+                'tipo': tipo_str
             })
 
     return JsonResponse(dados)

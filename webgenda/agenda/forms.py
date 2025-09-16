@@ -129,6 +129,12 @@ class EventoForm(forms.ModelForm):
                     )
             self.fields['atividade'].choices = choices
 
+    def clean_atividade(self):
+        atividade_selecionada = self.cleaned_data.get('atividade')
+        if not atividade_selecionada:
+            return None
+        return atividade_selecionada
+
 class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = Docentes
