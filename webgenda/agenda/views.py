@@ -420,7 +420,7 @@ def cadastrar_evento_view(request, ano, mes, dia):
     data_inicial = datetime(ano, mes, dia, 8, 0).strftime('%Y-%m-%dT%H:%M')
 
     if request.method == 'POST':
-        form = EventoForm(request.POST)
+        form = EventoForm(request.POST, docente=docente_logado)
         if form.is_valid():
             novo_evento = form.save(commit=False)
             novo_evento.docente = docente_logado
@@ -440,6 +440,88 @@ def cadastrar_evento_view(request, ano, mes, dia):
     contexto = {
         'form': form,
         'active_page': 'agenda',
+    }
+    return render(request, 'agenda/cadastrarevento.html', contexto)
+
+@login_required
+def eventos_list_view(request):
+    sort_by = request.GET.get('sort', '-data')
+    
+    valid_sort_fields = ['titulo', 'data', 'atividade_relacionada__titulo']
+    if sort_by.strip('-') not in valid_sort_fields:
+        sort_by = '-data'
+
+    eventos = Eventos.objects.filter(docente=request.user).order_by(sort_by)
+    
+    paginator = Paginator(eventos, 10)
+    page_number = request.GET.get('page')
+    eventos_paginados = paginator.get_page(page_number)
+    
+    contexto = {
+        'active_page': 'eventos',
+        'eventos_paginados': eventos_paginados,
+        'current_sort': sort_by,
+    }
+    return render(request, 'agenda/eventoslista.html', contexto)
+
+@login_required
+def cadastrar_evento_geral_view(request):
+    if request.method == 'POST':
+        form = EventoForm(request.POST, docente=request.user)
+        if form.is_valid():
+            novo_evento = form.save(commit=False)
+            novo_evento.docente = request.user
+            
+            atividade_selecionada = form.cleaned_data.get('atividade')
+            if atividade_selecionada:
+                content_type_id, object_id = atividade_selecionada.split('_')
+                novo_evento.content_type_id = int(content_type_id)
+                novo_evento.object_id = int(object_id)
+
+            novo_evento.save()
+            messages.success(request, 'Novo evento cadastrado com sucesso!')
+            return redirect('eventos_lista')
+    else:
+        form = EventoForm(docente=request.user)
+
+    contexto = {
+        'form': form, 
+        'active_page': 'eventos'
+    }
+    return render(request, 'agenda/cadastrarevento.html', contexto)
+
+@login_required
+def editar_evento_view(request, id_evento):
+    evento = get_object_or_404(Eventos, pk=id_evento, docente=request.user)
+    
+    if request.method == 'POST':
+        form = EventoForm(request.POST, instance=evento, docente=request.user)
+        if form.is_valid():
+            evento_editado = form.save(commit=False)
+            
+            atividade_selecionada = form.cleaned_data.get('atividade')
+            if atividade_selecionada:
+                content_type_id, object_id = atividade_selecionada.split('_')
+                evento_editado.content_type_id = int(content_type_id)
+                evento_editado.object_id = int(object_id)
+            else:
+                evento_editado.content_type = None
+                evento_editado.object_id = None
+
+            evento_editado.save()
+            messages.success(request, 'Evento atualizado com sucesso!')
+            return redirect('eventos_lista')
+    else:
+        initial_data = {}
+        if evento.atividade_relacionada:
+            ct = ContentType.objects.get_for_model(evento.atividade_relacionada)
+            initial_data['atividade'] = f'{ct.id}_{evento.object_id}'
+        
+        form = EventoForm(instance=evento, docente=request.user, initial=initial_data)
+
+    contexto = {
+        'form': form, 
+        'active_page': 'eventos'
     }
     return render(request, 'agenda/cadastrarevento.html', contexto)
 

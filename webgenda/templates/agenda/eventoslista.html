@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Meus Eventos{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Meus Eventos</h1>
+    <a href="{% url 'cadastrar_evento_geral' %}" class="btn-primary">Cadastrar Novo Evento</a>
+</div>
+
+<div class="table-container">
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>
+                    {% with new_direction='titulo' %}{% if current_sort == 'titulo' %}{% with new_direction='-titulo' %}{% endif %}{% endif %}
+                    <a href="?sort={{ new_direction }}">
+                        Título
+                        {% if 'titulo' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    {% with new_direction='data' %}{% if current_sort == 'data' %}{% with new_direction='-data' %}{% endif %}{% endif %}
+                    <a href="?sort={{ new_direction }}">
+                        Data e Hora
+                        {% if 'data' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>
+                    {% with new_direction='atividade_relacionada__titulo' %}{% if current_sort == 'atividade_relacionada__titulo' %}{% with new_direction='-atividade_relacionada__titulo' %}{% endif %}{% endif %}
+                    <a href="?sort={{ new_direction }}">
+                        Atividade Relacionada
+                        {% if 'atividade_relacionada' in current_sort %}<i class="bi bi-arrow-{% if current_sort.startswith '-' %}down{% else %}up{% endif %}"></i>{% endif %}
+                    </a>
+                </th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for evento in eventos_paginados %}
+                <tr>
+                    <td>{{ evento.titulo }}</td>
+                    <td>{{ evento.data|date:"d/m/Y, H:i" }}</td>
+                    <td>
+                        {% if evento.atividade_relacionada %}
+                            {{ evento.atividade_relacionada.titulo }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ evento.descricao|truncatechars:50 }}</td>
+                    <td>
+                        <a href="{% url 'editar_evento' evento.pk %}" class="btn-secondary" style="padding: 5px 10px; font-size: 0.9em;">Editar</a>
+                        <a href="{% url 'excluir_evento' evento.pk %}" class="btn-danger" style="padding: 5px 10px; font-size: 0.9em;">Excluir</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 20px;">Nenhum evento encontrado.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'agenda/paginacao.html' with page_obj=eventos_paginados %}
+
+{% endblock %}

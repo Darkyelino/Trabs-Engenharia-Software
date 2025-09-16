@@ -58,6 +58,9 @@
                     <li class="{% if active_page == 'dashboard' %}active{% endif %}">
                         <a href="{% url 'dashboard' %}"><i class="bi bi-grid-1x2-fill"></i> <span>Dashboard</span></a>
                     </li>
+                    <li class="{% if active_page == 'eventos' %}active{% endif %}">
+                        <a href="{% url 'eventos_lista' %}"><i class="bi bi-calendar-event"></i> <span>Eventos</span></a>
+                    </li>
                     <li class="{% if active_page == 'atividades' %}active{% endif %}">
                         <a href="{% url 'atividades' %}"><i class="bi bi-check2-square"></i> <span>Atividades</span></a>
                     </li>
