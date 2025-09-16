@@ -22,6 +22,7 @@
                             <a href="{{ field.value.url }}" target="_blank">{{ field.value.name|truncatechars:30 }}</a>
                         </div>
                     {% endif %}
+                    {{ field }} {% else %}
                     {{ field }}
                 {% endif %}
                 
