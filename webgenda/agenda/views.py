@@ -82,7 +82,6 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
 @login_required
 def agenda_view(request):
     docente_logado = request.user
-    docente_logado = request.user
 
     try:
         year = int(request.GET.get('year', datetime.now().year))
@@ -99,7 +98,6 @@ def agenda_view(request):
 
     primeiro_dia_mes = date(year, month, 1)
     ultimo_dia_mes = primeiro_dia_mes + relativedelta(months=1) - timedelta(days=1)
-    
     dias_marcados = {}
 
     eventos = Eventos.objects.filter(data__year=year, data__month=month, docente=docente_logado)

@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- LÓGICA DO MENU LATERAL (SIDEBAR) ---
     const sidebar = document.getElementById('sidebar');
     const sidebarCollapseButton = document.getElementById('sidebarCollapse');
+    const userDropdown = document.querySelector('.user-dropdown');
+    const themeToggle = document.getElementById('theme-toggle');
+    const filterIcons = document.querySelectorAll('.th-with-filter .filter-icon');
+    const alerts = document.querySelectorAll('.alert-success');
+    const calendarContainer = document.querySelector('.calendar-container');
+    
+    // --- LÓGICA DO MENU LATERAL (SIDEBAR) ---
     if (sidebar && sidebarCollapseButton) {
         sidebarCollapseButton.addEventListener('click', function () {
             sidebar.classList.toggle('collapsed');
@@ -10,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- LÓGICA DO DROPDOWN DE USUÁRIO ---
-    const userDropdown = document.querySelector('.user-dropdown');
     if (userDropdown) {
         const trigger = userDropdown.querySelector('.user-trigger');
         const menu = userDropdown.querySelector('.dropdown-menu');
@@ -23,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- LÓGICA DO MODO ESCURO (DARK MODE) ---
-    const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
         if (localStorage.getItem('theme') === 'dark') {
             themeToggle.classList.remove('bi-brightness-high-fill');
@@ -45,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- LÓGICA PARA O FILTRO NO CABEÇALHO DA TABELA ---
-    const filterIcons = document.querySelectorAll('.th-with-filter .filter-icon');
     filterIcons.forEach(icon => {
         const filterMenu = icon.closest('.th-with-filter').querySelector('.header-filter-menu');
         if (filterMenu) {
@@ -73,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --- LÓGICA PARA FECHAMENTO AUTOMÁTICO DE ALERTAS DE SUCESSO ---
-    const alerts = document.querySelectorAll('.alert-success');
     alerts.forEach(function(alert) {
         setTimeout(function() {
             alert.classList.add('fade-out');
@@ -84,8 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // --- LÓGICA DO CALENDÁRIO INTERATIVO ---
-    const calendarContainer = document.querySelector('.calendar-container');
-    // Só executa a lógica do calendário se o container dele existir na página atual
     if (calendarContainer) {
         const calendarTable = document.querySelector('.calendar-table');
         const modal = document.getElementById('details-modal');
@@ -113,13 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     const dia = target.textContent;
                     const apiUrl = `${apiUrlBase}/${ano}/${mes}/${dia}/`;
                     fetch(apiUrl)
-                        .then(response => {
-                            if (!response.ok) { throw new Error('Erro na rede ou na API: ' + response.statusText); }
-                            return response.json();
-                        })
+                        .then(response => response.json())
                         .then(data => {
                             modalTitle.textContent = `Compromissos para ${dia}/${mes}/${ano}`;
                             let contentHtml = '';
+
                             if (data.eventos && data.eventos.length > 0) {
                                 contentHtml += '<h3>Eventos</h3><ul>';
                                 data.eventos.forEach(evento => {
@@ -128,22 +126,36 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                                 contentHtml += '</ul>';
                             }
-                            if (data.atividades && data.atividades.length > 0) { /* ... lógica para atividades ... */ }
+                            
+                            if (data.atividades && data.atividades.length > 0) {
+                                contentHtml += '<h3>Atividades no Dia</h3><ul>';
+                                data.atividades.forEach(atividade => {
+                                    contentHtml += `<li><strong>${atividade.titulo}</strong> (${atividade.tipo})</li>`;
+                                });
+                                contentHtml += '</ul>';
+                            }
+
                             if (contentHtml === '') { contentHtml = '<p>Nenhum compromisso para este dia.</p>'; }
+                            
                             modalBody.innerHTML = contentHtml;
                             const addEventUrl = `${addEventUrlBase}/${ano}/${mes}/${dia}/`;
-                            modalActions.innerHTML = `<a href="${addEventUrl}" class="btn-primary">Adicionar Evento para este dia</a>`;
+                            modalActions.innerHTML = `<a href="${addEventUrl}" class="btn-primary">Adicionar Evento</a>`;
                             modal.style.display = 'block';
                         })
-                        .catch(error => {
-                            console.error("Falha ao buscar dados da API:", error);
-                            alert("Não foi possível buscar os detalhes para este dia. Verifique o console para mais informações.");
-                        });
+                        .catch(error => console.error("Falha ao buscar dados da API:", error));
                 }
             });
         }
-        if(closeButton) { closeButton.onclick = function() { modal.style.display = "none"; } }
-        window.addEventListener('click', function(event) { if (event.target == modal) { modal.style.display = "none"; } });
+        if(closeButton) {
+            closeButton.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
     }
 
 }); 
