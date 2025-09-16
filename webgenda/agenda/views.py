@@ -11,6 +11,7 @@ import calendar
 from datetime import date, datetime, timedelta
 import locale
 import sys
+import json
 from dateutil.relativedelta import relativedelta
 from operator import itemgetter
 
@@ -21,9 +22,10 @@ def custom_404_view(request, exception):
     return render(request, '404.html', status=404)
 
 class SafeHTMLCalendar(calendar.HTMLCalendar):
-    def __init__(self, firstweekday=calendar.SUNDAY, eventos_e_atividades=None):
+    def __init__(self, firstweekday=calendar.SUNDAY, eventos_e_atividades=None, today=None):
         super().__init__(firstweekday)
         self.eventos_e_atividades = eventos_e_atividades or {}
+        self.today = today
     
     def formatday(self, day, weekday):
         if day == 0:
@@ -53,6 +55,9 @@ class SafeHTMLCalendar(calendar.HTMLCalendar):
                 css_classes.append('with-activity-middle')
             if 'end' in posicoes:
                 css_classes.append('with-activity-end')
+
+        if self.today and self.today == day:
+            css_classes.append('today')
 
         return f'<td class="{" ".join(css_classes)}">{day}</td>'
 
@@ -139,7 +144,12 @@ def agenda_view(request):
                 
                 dia_atual += timedelta(days=1)
 
-    cal = SafeHTMLCalendar(eventos_e_atividades=dias_marcados)
+    today = None
+    now = timezone.now().date()
+    if now.year == year and now.month == month:
+        today = now
+
+    cal = SafeHTMLCalendar(eventos_e_atividades=dias_marcados, today=today)
     html_calendar = cal.formatmonth(year, month)
     month_name = MESES_PT_BR[month - 1]
 
@@ -646,25 +656,44 @@ def dashboard_view(request):
         eventos_query = eventos_query.filter(data__range=[start_date, end_date])
     eventos_count = eventos_query.count()
 
-    # Filtra o total de Atividades (sem separar por tipo)
-    total_count = 0
-    activity_models = [AtividadePesquisa, AtividadeEnsino, AtividadeExtensao, AtividadeAdministracao]
-    for model in activity_models:
+    activity_models = {
+        'Pesquisa': AtividadePesquisa, 'Ensino': AtividadeEnsino,
+        'Extensão': AtividadeExtensao, 'Administração': AtividadeAdministracao,
+    }
+    activity_counts = {}
+    total_activities_count = 0
+
+    for name, model in activity_models.items():
         query = model.objects.filter(id_docente=docente_logado)
         if start_date and end_date:
             query = query.filter(data_inicio__range=[start_date, end_date])
-        total_count += query.count()
+        count = query.count()
+        activity_counts[name] = count
+        total_activities_count += count
+
+    todas_as_atividades = []
+    for model in activity_models.values():
+        todas_as_atividades.extend(list(model.objects.filter(id_docente=docente_logado)))
+    todas_as_atividades.sort(key=lambda x: x.data_inicio, reverse=True)
+    atividades_recentes = todas_as_atividades[:5]
 
     proximos_eventos = Eventos.objects.filter(
         docente=docente_logado,
         data__gte=timezone.now()
     ).order_by('data')[:5]
 
+    chart_data = {
+        'labels': list(activity_counts.keys()),
+        'data': list(activity_counts.values()),
+    }
+
     contexto = {
         'active_page': 'dashboard',
         'eventos_count': eventos_count,
-        'total_count': total_count,
+        'total_count': total_activities_count,
         'proximos_eventos': proximos_eventos,
+        'atividades_recentes': atividades_recentes,
+        'chart_data': json.dumps(chart_data),
         'current_filter': filter_option,
     }
     return render(request, 'agenda/dashboard.html', contexto)

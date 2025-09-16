@@ -421,6 +421,41 @@ a {
     border-radius: 10px;
 }
 
+.calendar-table td.today {
+    border: 2px solid var(--navy-blue) !important; /* Borda mais espessa */
+    font-weight: bold;
+}
+
+/* Container da legenda */
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 10px;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+.color-box {
+    width: 15px;
+    height: 15px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Cores da legenda */
+.legend-event { background-color: #e7f5ff; }
+.legend-pesquisa { background-color: #f3e8ff; }
+.legend-ensino { background-color: #e6f9f0; }
+.legend-extensao { background-color: #fff4e6; }
+.legend-administracao { background-color: #e0f7fa; }
+.legend-multiple { background-color: #fff9c4; }
+
 .date-selector-form {
     display: flex;
     gap: 10px;
@@ -1064,3 +1099,8 @@ a {
 .badge-ensino { background-color: #28a745; }
 .badge-extensão { background-color: #fd7e14; }
 .badge-administração { background-color: #17a2b8; }
+
+.chart-container {
+    position: relative;
+    height: 300px;
+}
