@@ -438,11 +438,18 @@ def cadastrar_evento_view(request, ano, mes, dia):
         if form.is_valid():
             novo_evento = form.save(commit=False)
             novo_evento.docente = docente_logado
+
+            atividade_selecionada = form.cleaned_data.get('atividade')
+            if atividade_selecionada:
+                content_type_id, object_id = atividade_selecionada.split('_')
+                novo_evento.content_type_id = int(content_type_id)
+                novo_evento.object_id = int(object_id)
+
             novo_evento.save()
             messages.success(request, 'Evento cadastrado com sucesso!')
             return redirect('agenda')
     else:
-        form = EventoForm(initial={'data': data_inicial})
+        form = EventoForm(initial={'data': data_inicial}, docente=docente_logado)
 
     contexto = {
         'form': form,
@@ -515,7 +522,7 @@ def api_dados_dia_view(request, ano, mes, dia):
             'id': evento.id_evento,
             'titulo': evento.titulo,
             'descricao': evento.descricao,
-            'aluno': evento.aluno,
+            'atividade': str(evento.atividade_relacionada) if evento.atividade_relacionada else None,
             'hora': evento.data.strftime('%H:%M')
         })
 

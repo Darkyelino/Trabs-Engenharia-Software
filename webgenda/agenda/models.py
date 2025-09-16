@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 class Docentes(AbstractUser):
     nome = models.CharField(max_length=255)
@@ -18,8 +20,14 @@ class Eventos(models.Model):
     docente = models.ForeignKey(Docentes, on_delete=models.CASCADE, related_name='eventos')
     titulo = models.CharField(max_length=255)
     descricao = models.TextField()
-    aluno = models.CharField(max_length=255, null=True, blank=True)
     data = models.DateTimeField()
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    atividade_relacionada = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return self.titulo
+
 
 class TipoPesquisa(models.Model):
     id_tipoatividade = models.AutoField(primary_key=True)

@@ -99,16 +99,35 @@ class AtividadeAdministracaoForm(forms.ModelForm):
         return cleaned_data
 
 class EventoForm(forms.ModelForm):
+    atividade = forms.ChoiceField(label="Atividade Relacionada (Opcional)", required=False)
+
     class Meta:
         model = Eventos
-        exclude = ['docente']
-        labels = {
-            'titulo': 'Título do Evento',
-            'aluno': 'Aluno (Opcional)',
-        }
+        fields = ['titulo', 'descricao', 'data', 'atividade']
         widgets = {
             'data': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
+
+    def __init__(self, *args, **kwargs):
+        docente = kwargs.pop('docente', None)
+        super().__init__(*args, **kwargs)
+
+        if docente:
+            choices = [('', '---------')]
+            activity_models = {
+                'Pesquisa': AtividadePesquisa,
+                'Ensino': AtividadeEnsino,
+                'Extensão': AtividadeExtensao,
+                'Administração': AtividadeAdministracao,
+            }
+            for model_name, model in activity_models.items():
+                atividades = model.objects.filter(id_docente=docente)
+                for ativ in atividades:
+                    content_type = ContentType.objects.get_for_model(model)
+                    choices.append(
+                        (f'{content_type.id}_{ativ.pk}', f'{model_name}: {ativ.titulo}')
+                    )
+            self.fields['atividade'].choices = choices
 
 class EditarPerfilForm(forms.ModelForm):
     class Meta:
