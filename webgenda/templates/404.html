@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Não Encontrada - DocAcademy</title>
+    <link rel="stylesheet" href="{% static 'agenda/css/style.css' %}">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: var(--background-gray);
+            color: var(--text-color);
+            text-align: center;
+            font-family: 'Roboto', sans-serif;
+        }
+        .error-container {
+            max-width: 500px;
+        }
+        .error-container h1 {
+            font-size: 6em;
+            font-weight: bold;
+            color: var(--navy-blue);
+        }
+        .error-container h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .error-container p {
+            font-size: 1.1em;
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>404</h1>
+        <h2>Página Não Encontrada</h2>
+        <p>A página que você está procurando não existe ou foi movida.</p>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'agenda' %}" class="btn-primary">Ir para a Página Principal</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn-primary">Ir para o Login</a>
+        {% endif %}
+    </div>
+</body>
+</html>

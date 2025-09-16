@@ -3,8 +3,9 @@
 from django.contrib import admin
 from django.urls import path, include, reverse_lazy
 from django.contrib.auth import views as auth_views
-from agenda.views import register_view  # Sua view de registro customizada
+from agenda.views import register_view, custom_404_view
 from django.conf import settings
+from django.conf.urls import handler404
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -43,3 +44,5 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = custom_404_view

@@ -17,6 +17,9 @@ from operator import itemgetter
 MESES_PT_BR = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 DIAS_ABREVIADOS_PT_BR = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]
 
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
 class SafeHTMLCalendar(calendar.HTMLCalendar):
     def __init__(self, firstweekday=calendar.SUNDAY, eventos_e_atividades=None):
         super().__init__(firstweekday)
