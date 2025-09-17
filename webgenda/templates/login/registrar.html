@@ -4,52 +4,45 @@
 {% block title %}Crie sua Conta{% endblock %}
 
 {% block form_title %}
-    <img src="{% static 'img/logo_docacademy_horizontal_clara.png' %}" alt="DocAcademy Logo" class="login-logo">
-    <h2 style="color: var(--navy-blue); margin-top: 20px; margin-bottom: 20px;">Crie sua Conta</h2>
+  <img src="{% static 'img/logo_docacademy_horizontal_clara.png' %}" alt="DocAcademy Logo" class="login-logo">
+  <h2>Crie sua Conta</h2>
 {% endblock %}
 
 {% block form_content %}
-    {% if form.errors %}
-        <div class="alert alert-error" style="text-align: left; margin-bottom: 20px;">
-            <p>Por favor, corrija os erros abaixo.</p>
-        </div>
-    {% endif %}
+  {% if form.errors %}
+    <div class="alert alert-error">
+      <p>Por favor, corrija os erros abaixo.</p>
+    </div>
+  {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-        
-        <div class="form-field">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-        </div>
-        <div class="form-field">
-            {{ form.nome.label_tag }}
-            {{ form.nome }}
-        </div>
-        <div class="form-field">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-        </div>
-        <div class="form-field">
-            {{ form.password1.label_tag }}
-            {{ form.password1 }}
-        </div>
-        <div class="form-field">
-            {{ form.password2.label_tag }}
-            {{ form.password2 }}
-        </div>
+  <form method="post" class="auth-form">
+    {% csrf_token %}
 
-        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 20px;">Registrar</button>
+    <div class="form-group">
+      {{ form.username.label_tag }}
+      {{ form.username }}
+    </div>
+    <div class="form-group">
+      {{ form.nome.label_tag }}
+      {{ form.nome }}
+    </div>
+    <div class="form-group">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+    </div>
+    <div class="form-group">
+      {{ form.password1.label_tag }}
+      {{ form.password1 }}
+    </div>
+    <div class="form-group">
+      {{ form.password2.label_tag }}
+      {{ form.password2 }}
+    </div>
 
-        <div class="login-links">
-            Já tem uma conta? <a href="{% url 'login' %}">Faça o login</a>
-        </div>
-    </form>
-{% endblock %}
+    <button type="submit" class="btn-primary">Registrar</button>
 
-{% block extra_css %}
-<style>
-    .login-logo { height: 60px; }
-    .login-links { margin-top: 20px; font-size: 0.9em; }
-</style>
+    <div class="login-links">
+      Já tem uma conta? <a href="{% url 'login' %}">Faça o login</a>
+    </div>
+  </form>
 {% endblock %}
