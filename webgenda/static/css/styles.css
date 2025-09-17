@@ -1215,3 +1215,23 @@ a {
   font-size: 0.9em;
   text-align: center;
 }
+
+.password-hint {
+    text-align: left;
+    font-size: 0.75em; /* <-- Fonte menor */
+    color: #6c757d;
+    margin-top: 8px;   /* <-- Menos espaço em cima */
+    margin-bottom: 15px;
+    padding: 8px 12px;   /* <-- Menos preenchimento interno */
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border-left: 3px solid #ced4da; /* <-- Borda mais sutil */
+    display: flex;
+    align-items: center;
+}
+
+.password-hint i {
+    font-size: 1.1em; /* <-- Ícone um pouco menor */
+    margin-right: 8px;
+    color: #6c757d;
+}

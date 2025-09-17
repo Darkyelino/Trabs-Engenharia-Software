@@ -34,11 +34,17 @@
       {{ form.password1.label_tag }}
       {{ form.password1 }}
     </div>
+
+    <div class="password-hint">
+        <i class="bi bi-info-circle"></i>
+        <span>Sua senha deve ter no mínimo 8 caracteres, não pode só números, não pode fazer parte do seu nome de usuário e não pode ser muito comum.</span>
+    </div>
+    <div class="form-group">
+
     <div class="form-group">
       {{ form.password2.label_tag }}
       {{ form.password2 }}
     </div>
-
     <button type="submit" class="btn-primary">Registrar</button>
 
     <div class="login-links">
