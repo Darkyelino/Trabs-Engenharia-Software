@@ -7,6 +7,11 @@ class AtividadePesquisaForm(forms.ModelForm):
         model = AtividadePesquisa
         exclude = ['id_docente']
         labels = {
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'data_inicio': 'Data de Início',
+            'data_fim': 'Data de Fim',
+            'comprovante': 'Comprovante',
             'id_tipo': 'Tipo da Atividade',
         }
         widgets = {
@@ -31,6 +36,11 @@ class AtividadeEnsinoForm(forms.ModelForm):
         model = AtividadeEnsino
         exclude = ['id_docente']
         labels = {
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'data_inicio': 'Data de Início',
+            'data_fim': 'Data de Fim',
+            'comprovante': 'Comprovante',
             'id_tipo': 'Tipo da Atividade',
         }
         widgets = {
@@ -55,6 +65,11 @@ class AtividadeExtensaoForm(forms.ModelForm):
         model = AtividadeExtensao
         exclude = ['id_docente']
         labels = {
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'data_inicio': 'Data de Início',
+            'data_fim': 'Data de Fim',
+            'comprovante': 'Comprovante',
             'id_tipo': 'Tipo da Atividade',
         }
         widgets = {
@@ -79,6 +94,11 @@ class AtividadeAdministracaoForm(forms.ModelForm):
         model = AtividadeAdministracao
         exclude = ['id_docente']
         labels = {
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'data_inicio': 'Data de Início',
+            'data_fim': 'Data de Fim',
+            'comprovante': 'Comprovante',
             'id_tipo': 'Tipo da Atividade',
         }
         widgets = {
@@ -104,6 +124,11 @@ class EventoForm(forms.ModelForm):
     class Meta:
         model = Eventos
         fields = ['titulo', 'descricao', 'data', 'atividade']
+        labels = {
+            'titulo': 'Título do Evento',
+            'descricao': 'Descrição',
+            'data': 'Data e Hora',
+        }
         widgets = {
             'data': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
@@ -139,6 +164,11 @@ class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = Docentes
         fields = ['nome', 'username', 'email']
+        labels = {
+            'nome': 'Nome Completo',
+            'username': 'Nome de Usuário',
+            'email': 'E-mail',
+        }
 
 class DocenteRegistrationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
